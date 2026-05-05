@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel Vietnam AI Blog - Khám phá Việt Nam</title>
+    <meta name="description" content="Blog du lịch Việt Nam với AI, review khách sạn, tour du lịch, và hướng dẫn chi tiết">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --navy: #1a2332;
+            --cream: #f5f1e8;
+            --gold: #d4af37;
+            --white: #ffffff;
+            --gray: #6b7280;
+            --border: #e5e7eb;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            line-height: 1.6;
+            color: var(--navy);
+            background: var(--cream);
+        }
+        
+        /* Header */
+        header {
+            background: var(--white);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--navy);
+            text-decoration: none;
+        }
+        
+        .logo span {
+            color: var(--gold);
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+        
+        .nav-links a {
+            color: var(--navy);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: var(--gold);
+        }
+        
+        /* Language Toggle */
+        .lang-toggle {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+        
+        .lang-btn {
+            padding: 0.5rem 0.75rem;
+            border: 2px solid var(--border);
+            background: var(--white);
+            color: var(--navy);
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+        }
+        
+        .lang-btn:hover {
+            border-color: var(--gold);
+            color: var(--gold);
+        }
+        
+        .lang-btn.active {
+            background: var(--gold);
+            color: var(--white);
+            border-color: var(--gold);
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--navy) 0%, #2d3e50 100%);
+            color: var(--white);
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+        
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+        
+        /* Filter Bar */
+        .filter-bar {
+            background: var(--white);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        
+        .filter-bar select,
+        .filter-bar input {
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 1rem;
+            background: var(--white);
+            cursor: pointer;
+        }
+        
+        .filter-bar input {
+            flex: 1;
+            min-width: 250px;
+        }
+        
+        /* Posts Grid */
+        .posts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .post-card {
+            background: var(--white);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+        
+        .post-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+        }
+        
+        .post-image {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            background: var(--cream);
+        }
+        
+        .post-content {
+            padding: 1.5rem;
+        }
+        
+        .post-meta {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 0.75rem;
+            font-size: 0.875rem;
+            color: var(--gray);
+        }
+        
+        .post-category {
+            background: var(--gold);
+            color: var(--white);
+            padding: 0.25rem 0.75rem;
+            border-radius: 4px;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+        }
+        
+        .post-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--navy);
+        }
+        
+        .post-excerpt {
+            color: var(--gray);
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+        }
+        
+        .post-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border);
+        }
+        
+        .read-more {
+            color: var(--gold);
+            font-weight: 600;
+            text-decoration: none;
+        }
+        
+        .post-views {
+            color: var(--gray);
+            font-size: 0.875rem;
+        }
+        
+        /* Loading State */
+        .loading {
+            text-align: center;
+            padding: 4rem 2rem;
+        }
+        
+        .spinner {
+            border: 4px solid var(--border);
+            border-top: 4px solid var(--gold);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Mobile Menu */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--navy);
+        }
+        
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+            
+            .posts-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--gray);
+        }
+        
+        .empty-state h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--navy);
+        }
+        
+        /* Setup Notice Banner */
+        .setup-notice {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem 2rem;
+            text-align: center;
+            display: none;
+        }
+        
+        .setup-notice.show {
+            display: block;
+        }
+        
+        .setup-notice strong {
+            font-weight: 700;
+        }
+        
+        .setup-notice a {
+            color: var(--gold);
+            text-decoration: underline;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav>
+            <a href="/" class="logo" id="siteName">TravelVietnam</a>
+            <ul class="nav-links">
+                <li><a href="#" data-category="all" data-text="nav_all">Tất cả</a></li>
+                <li><a href="#" data-category="review" data-text="nav_reviews">Reviews</a></li>
+                <li><a href="#" data-category="itinerary" data-text="nav_itinerary">Lịch trình</a></li>
+                <li><a href="#" data-category="comparison" data-text="nav_comparison">So sánh</a></li>
+            </ul>
+            <div class="lang-toggle">
+                <button class="lang-btn" data-lang="vi">VI</button>
+                <button class="lang-btn" data-lang="en">EN</button>
+            </div>
+            <button class="mobile-menu-btn">☰</button>
+        </nav>
+    </header>
+    
+    <!-- Setup Notice (only shows when using demo data) -->
+    <div id="setupNotice" class="setup-notice">
+        <p>
+            <strong>📝 Demo Mode:</strong> 
+            <span id="noticeText">Bạn đang xem bài viết mẫu. Để hiển thị bài viết thật, vui lòng setup Google Apps Script.</span>
+            <a href="SETUP_GUIDE.md" target="_blank" id="noticeLink">Xem hướng dẫn →</a>
+        </p>
+    </div>
+
+    <!-- Hero -->
+    <section class="hero">
+        <h1 id="heroTitle">Khám phá Việt Nam</h1>
+        <p id="heroSubtitle">Reviews chi tiết, lịch trình tối ưu, và gợi ý khách sạn tốt nhất</p>
+    </section>
+
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Filter Bar -->
+        <div class="filter-bar">
+            <input type="text" id="searchInput" data-placeholder="filter_search" placeholder="Tìm kiếm địa điểm, khách sạn...">
+            <select id="categoryFilter">
+                <option value="all" data-text="filter_all">Tất cả loại</option>
+                <option value="review" data-text="filter_review">Review</option>
+                <option value="itinerary" data-text="filter_itinerary">Lịch trình</option>
+                <option value="comparison" data-text="filter_comparison">So sánh</option>
+            </select>
+            <select id="sortBy">
+                <option value="newest" data-text="filter_sort_newest">Mới nhất</option>
+                <option value="popular" data-text="filter_sort_popular">Phổ biến</option>
+            </select>
+        </div>
+
+        <!-- Loading State -->
+        <div id="loadingState" class="loading">
+            <div class="spinner"></div>
+            <p id="loadingText">Đang tải bài viết...</p>
+        </div>
+
+        <!-- Posts Grid -->
+        <div id="postsGrid" class="posts-grid" style="display: none;"></div>
+
+        <!-- Empty State -->
+        <div id="emptyState" class="empty-state" style="display: none;">
+            <h3>Không tìm thấy bài viết</h3>
+            <p>Thử tìm kiếm với từ khóa khác</p>
+        </div>
+    </main>
+
+    <!-- Config & Translations -->
+    <script src="config.js"></script>
+    <script src="translations.js"></script>
+    
+    <script>
+        // Check if config loaded
+        if (!CONFIG || !CONFIG.SCRIPT_URL) {
+            console.error('Config file not loaded! Make sure config.js exists.');
+        }
+
+        // State
+        let allPosts = [];
+        let filteredPosts = [];
+        let currentLang = getCurrentLanguage();
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', init);
+
+        async function init() {
+            try {
+                // Step 1: Load translations first (critical!)
+                console.log('Loading translations...');
+                await loadTranslations();
+                console.log('✅ Translations loaded');
+                
+                // Step 2: Initialize language UI
+                initLanguage();
+                setupLanguageToggle();
+                
+                // Step 3: Load posts
+                console.log('Loading posts...');
+                await loadPosts();
+                console.log('✅ Posts loaded');
+                
+                // Step 4: Setup event listeners
+                setupEventListeners();
+                
+            } catch (error) {
+                console.error('Init error:', error);
+                // Show error message
+                showEmptyState('Lỗi khởi tạo. Vui lòng refresh trang.');
+            }
+        }
+        
+        // Initialize language
+        function initLanguage() {
+            currentLang = getCurrentLanguage();
+            updateLanguageUI();
+            translatePage();
+        }
+        
+        // Update language toggle buttons
+        function updateLanguageUI() {
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                if (btn.dataset.lang === currentLang) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+        }
+        
+        // Setup language toggle
+        function setupLanguageToggle() {
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const newLang = btn.dataset.lang;
+                    if (newLang !== currentLang) {
+                        setLanguage(newLang);
+                    }
+                });
+            });
+        }
+        
+        // Translate page elements
+        function translatePage() {
+            // Hero section
+            document.getElementById('heroTitle').textContent = t('hero_title');
+            document.getElementById('heroSubtitle').textContent = t('hero_subtitle');
+            
+            // Loading text
+            document.getElementById('loadingText').textContent = t('loading_posts');
+            
+            // Nav links
+            document.querySelectorAll('[data-text]').forEach(el => {
+                const key = el.dataset.text;
+                if (key === 'nav_all') { el.textContent = t(key); }
+                else if (el.tagName === 'OPTION') { el.textContent = t(key); }
+                else { el.textContent = t(key); }
+            });
+            
+            // Placeholders
+            document.querySelectorAll('[data-placeholder]').forEach(el => {
+                const key = el.dataset.placeholder;
+                el.placeholder = t(key);
+            });
+        }
+
+        // Load posts from API
+        async function loadPosts() {
+            try {
+                // Check if SCRIPT_URL is configured
+                if (!CONFIG.SCRIPT_URL || CONFIG.SCRIPT_URL.includes('YOUR_GOOGLE')) {
+                    console.warn('⚠ SCRIPT_URL not configured. Using demo data.');
+                    allPosts = getDemoData();
+                    filteredPosts = allPosts;
+                    renderPosts(allPosts);
+                    return;
+                }
+                
+                // Check cache first
+                const cached = getCachedData();
+                if (cached) {
+                    allPosts = cached;
+                    filteredPosts = allPosts;
+                    renderPosts(allPosts);
+                    return;
+                }
+                
+                // Fetch from API
+                const response = await fetch(`${CONFIG.SCRIPT_URL}?path=posts`);
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+                
+                const data = await response.json();
+                
+                // Check if data is valid
+                if (!data || !Array.isArray(data)) {
+                    throw new Error('Invalid data format');
+                }
+                
+                // If no posts, show demo data
+                if (data.length === 0) {
+                    console.warn('⚠ No posts found. Using demo data.');
+                    allPosts = getDemoData();
+                } else {
+                    allPosts = data;
+                }
+                
+                filteredPosts = allPosts;
+                
+                // Cache data
+                setCachedData(allPosts);
+                
+                // Render
+                renderPosts(allPosts);
+                
+            } catch (error) {
+                console.error('Error loading posts:', error);
+                // Show demo data on error
+                console.warn('⚠ API error. Using demo data.');
+                allPosts = getDemoData();
+                filteredPosts = allPosts;
+                renderPosts(allPosts);
+            }
+        }
+
+        // Demo data for when Sheet is empty or API not configured
+        function getDemoData() {
+            // Show setup notice
+            showSetupNotice();
+            
+            const lang = getCurrentLanguage();
+            
+            if (lang === 'en') {
+                return [
+                    {
+                        post_id: 'demo_001',
+                        title: 'Top 10 Must-Visit Places in Da Nang',
+                        slug: 'top-10-da-nang',
+                        category: 'review',
+                        destination: 'Da Nang, Vietnam',
+                        excerpt: 'Discover the most beautiful beaches, ancient temples, and modern attractions in Da Nang.',
+                        featured_image: 'https://images.unsplash.com/photo-1583417319070-4a69db38a482?w=800',
+                        status: 'published',
+                        published_date: '2025-05-01',
+                        views: 1250
+                    },
+                    {
+                        post_id: 'demo_002',
+                        title: '3 Days in Hanoi: Perfect Itinerary',
+                        slug: '3-days-hanoi',
+                        category: 'itinerary',
+                        destination: 'Hanoi, Vietnam',
+                        excerpt: 'Complete 3-day itinerary to explore Hanoi - from Old Quarter to Halong Bay.',
+                        featured_image: 'https://images.unsplash.com/photo-1505864990768-7ad5e7ccc5d3?w=800',
+                        status: 'published',
+                        published_date: '2025-04-28',
+                        views: 980
+                    },
+                    {
+                        post_id: 'demo_003',
+                        title: 'Phu Quoc vs Nha Trang: Which Beach is Better?',
+                        slug: 'phu-quoc-vs-nha-trang',
+                        category: 'comparison',
+                        destination: 'Vietnam',
+                        excerpt: 'Detailed comparison of Vietnam\'s two most famous beach destinations.',
+                        featured_image: 'https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=800',
+                        status: 'published',
+                        published_date: '2025-04-25',
+                        views: 856
+                    }
+                ];
+            } else {
+                return [
+                    {
+                        post_id: 'demo_001',
+                        title: 'Top 10 Địa Điểm Phải Đến Ở Đà Nẵng',
+                        slug: 'top-10-da-nang',
+                        category: 'review',
+                        destination: 'Đà Nẵng, Việt Nam',
+                        excerpt: 'Khám phá những bãi biển đẹp nhất, đền cổ, và điểm tham quan hiện đại tại Đà Nẵng.',
+                        featured_image: 'https://images.unsplash.com/photo-1583417319070-4a69db38a482?w=800',
+                        status: 'published',
+                        published_date: '2025-05-01',
+                        views: 1250
+                    },
+                    {
+                        post_id: 'demo_002',
+                        title: '3 Ngày 2 Đêm Hà Nội: Lịch Trình Hoàn Hảo',
+                        slug: '3-days-hanoi',
+                        category: 'itinerary',
+                        destination: 'Hà Nội, Việt Nam',
+                        excerpt: 'Lịch trình chi tiết 3 ngày khám phá Hà Nội - từ Phố Cổ đến Vịnh Hạ Long.',
+                        featured_image: 'https://images.unsplash.com/photo-1505864990768-7ad5e7ccc5d3?w=800',
+                        status: 'published',
+                        published_date: '2025-04-28',
+                        views: 980
+                    },
+                    {
+                        post_id: 'demo_003',
+                        title: 'Phú Quốc vs Nha Trang: Biển Nào Đẹp Hơn?',
+                        slug: 'phu-quoc-vs-nha-trang',
+                        category: 'comparison',
+                        destination: 'Việt Nam',
+                        excerpt: 'So sánh chi tiết hai bãi biển nổi tiếng nhất Việt Nam.',
+                        featured_image: 'https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=800',
+                        status: 'published',
+                        published_date: '2025-04-25',
+                        views: 856
+                    }
+                ];
+            }
+        }
+
+        // Render posts
+        function renderPosts(posts) {
+            const grid = document.getElementById('postsGrid');
+            const loading = document.getElementById('loadingState');
+            const empty = document.getElementById('emptyState');
+            
+            loading.style.display = 'none';
+            
+            if (posts.length === 0) {
+                grid.style.display = 'none';
+                empty.style.display = 'block';
+                return;
+            }
+            
+            empty.style.display = 'none';
+            grid.style.display = 'grid';
+            
+            grid.innerHTML = posts.map(post => createPostCard(post)).join('');
+            
+            // Add click handlers
+            document.querySelectorAll('.post-card').forEach(card => {
+                card.addEventListener('click', () => {
+                    const slug = card.dataset.slug;
+                    window.location.href = `post.html?slug=${slug}`;
+                });
+            });
+        }
+
+        // Create post card HTML
+        function createPostCard(post) {
+            const categoryLabel = t(`category_${post.category}`) || post.category || 'Post';
+            const readMore = t('post_read_more') || 'Read more';
+            const views = t('post_views') || 'views';
+            
+            // Safely format date
+            let dateStr = '';
+            try {
+                dateStr = formatDate(post.published_date);
+            } catch (e) {
+                dateStr = post.published_date || '';
+            }
+            
+            return `
+                <article class="post-card" data-slug="${post.slug || ''}">
+                    <img src="${post.featured_image || 'https://via.placeholder.com/400x220?text=No+Image'}" 
+                         alt="${(post.title || 'Post').replace(/"/g, '&quot;')}" 
+                         class="post-image"
+                         loading="lazy">
+                    <div class="post-content">
+                        <div class="post-meta">
+                            <span class="post-category">${categoryLabel}</span>
+                            <span>${dateStr}</span>
+                        </div>
+                        <h2 class="post-title">${post.title || 'Untitled'}</h2>
+                        <p class="post-excerpt">${post.excerpt || ''}</p>
+                        <div class="post-footer">
+                            <a href="post.html?slug=${post.slug || ''}" class="read-more">${readMore} →</a>
+                            <span class="post-views">👁 ${post.views || 0} ${views}</span>
+                        </div>
+                    </div>
+                </article>
+            `;
+        }
+
+        // Event listeners
+        function setupEventListeners() {
+            // Search
+            document.getElementById('searchInput').addEventListener('input', debounce(filterPosts, 300));
+            
+            // Category filter
+            document.getElementById('categoryFilter').addEventListener('change', filterPosts);
+            
+            // Sort
+            document.getElementById('sortBy').addEventListener('change', sortPosts);
+            
+            // Nav links
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const category = e.target.dataset.category;
+                    document.getElementById('categoryFilter').value = category;
+                    filterPosts();
+                });
+            });
+        }
+
+        // Filter posts
+        function filterPosts() {
+            const search = document.getElementById('searchInput').value.toLowerCase();
+            const category = document.getElementById('categoryFilter').value;
+            
+            filteredPosts = allPosts.filter(post => {
+                const matchesSearch = !search || 
+                    post.title.toLowerCase().includes(search) ||
+                    post.excerpt.toLowerCase().includes(search) ||
+                    post.destination.toLowerCase().includes(search);
+                
+                const matchesCategory = category === 'all' || post.category === category;
+                
+                return matchesSearch && matchesCategory;
+            });
+            
+            sortPosts();
+        }
+
+        // Sort posts
+        function sortPosts() {
+            const sortBy = document.getElementById('sortBy').value;
+            
+            if (sortBy === 'newest') {
+                filteredPosts.sort((a, b) => 
+                    new Date(b.published_date) - new Date(a.published_date)
+                );
+            } else if (sortBy === 'popular') {
+                filteredPosts.sort((a, b) => 
+                    (b.views || 0) - (a.views || 0)
+                );
+            }
+            
+            renderPosts(filteredPosts);
+        }
+
+        // Utility: Cache
+        function getCachedData() {
+            try {
+                const cached = localStorage.getItem(CONFIG.CACHE_KEY);
+                if (!cached) return null;
+                
+                const { data, timestamp } = JSON.parse(cached);
+                if (Date.now() - timestamp > CONFIG.CACHE_DURATION) {
+                    localStorage.removeItem(CONFIG.CACHE_KEY);
+                    return null;
+                }
+                
+                return data;
+            } catch {
+                return null;
+            }
+        }
+
+        function setCachedData(data) {
+            try {
+                localStorage.setItem(CONFIG.CACHE_KEY, JSON.stringify({
+                    data,
+                    timestamp: Date.now()
+                }));
+            } catch (e) {
+                console.warn('Cache storage failed:', e);
+            }
+        }
+
+        // Utility: Format date
+        function formatDate(dateStr) {
+            try {
+                if (!dateStr) return '';
+                const date = new Date(dateStr);
+                if (isNaN(date.getTime())) return dateStr;
+                
+                const lang = getCurrentLanguage();
+                const locale = lang === 'en' ? 'en-US' : 'vi-VN';
+                
+                return date.toLocaleDateString(locale, { 
+                    year: 'numeric', 
+                    month: 'long', 
+                    day: 'numeric' 
+                });
+            } catch (e) {
+                console.warn('Date format error:', e);
+                return dateStr || '';
+            }
+        }
+
+        // Utility: Debounce
+        function debounce(func, wait) {
+            let timeout;
+            return function(...args) {
+                clearTimeout(timeout);
+                timeout = setTimeout(() => func.apply(this, args), wait);
+            };
+        }
+
+        // Utility: Show empty state
+        function showEmptyState(message) {
+            document.getElementById('loadingState').style.display = 'none';
+            document.getElementById('postsGrid').style.display = 'none';
+            const empty = document.getElementById('emptyState');
+            empty.style.display = 'block';
+            empty.querySelector('h3').textContent = t('empty_title');
+            empty.querySelector('p').textContent = message || t('empty_subtitle');
+        }
+        
+        // Show setup notice banner
+        function showSetupNotice() {
+            const notice = document.getElementById('setupNotice');
+            const noticeText = document.getElementById('noticeText');
+            const noticeLink = document.getElementById('noticeLink');
+            
+            const lang = getCurrentLanguage();
+            
+            if (lang === 'en') {
+                noticeText.textContent = 'You are viewing demo posts. To display real posts, please setup Google Apps Script.';
+                noticeLink.textContent = 'View Setup Guide →';
+            } else {
+                noticeText.textContent = 'Bạn đang xem bài viết mẫu. Để hiển thị bài viết thật, vui lòng setup Google Apps Script.';
+                noticeLink.textContent = 'Xem hướng dẫn →';
+            }
+            
+            notice.classList.add('show');
+        }
+    </script>
+</body>
+</html>
