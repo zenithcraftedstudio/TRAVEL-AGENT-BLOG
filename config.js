@@ -6,7 +6,7 @@
 const CONFIG = {
   // Google Apps Script API URL
   // Lấy từ: Extensions > Apps Script > Deploy > Web app URL
-  SCRIPT_URL: 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE',
+  SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbya15TOqFV7r_94hlwxwUjHXIJ7Xzss07wtZYgHfZ-fuweFbJgQGAJuRnx85rDXuj2O7A/exec',
   
   // Site Settings
   SITE_NAME: 'Travel Vietnam AI Blog',
