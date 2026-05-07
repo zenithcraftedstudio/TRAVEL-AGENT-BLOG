@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="pageTitle">Bài viết - Travel Vietnam</title>
+    <meta name="description" content="" id="pageDescription">
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        :root{--navy:#1a2332;--cream:#f5f1e8;--gold:#d4af37;--white:#ffffff;--gray:#6b7280;--border:#e5e7eb}
+        body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;line-height:1.6;color:var(--navy);background:var(--cream)}
+        header{background:var(--white);box-shadow:0 2px 8px rgba(0,0,0,.05);position:sticky;top:0;z-index:100}
+        nav{max-width:1200px;margin:0 auto;padding:1rem 2rem;display:flex;justify-content:space-between;align-items:center}
+        .logo{font-size:1.5rem;font-weight:700;color:var(--navy);text-decoration:none}
+        .logo span{color:var(--gold)}
+        .back-link{color:var(--gray);text-decoration:none;font-size:.9rem;display:flex;align-items:center;gap:.4rem}
+        .back-link:hover{color:var(--gold)}
+        .article-container{max-width:800px;margin:2rem auto;padding:0 2rem}
+        .article-header{background:var(--white);padding:2rem;border-radius:12px;margin-bottom:2rem}
+        .article-category{display:inline-block;background:var(--gold);color:var(--white);padding:.5rem 1rem;border-radius:4px;font-weight:600;text-transform:uppercase;font-size:.875rem;margin-bottom:1rem}
+        .article-title{font-size:2.5rem;font-weight:700;margin-bottom:1rem;line-height:1.2}
+        .article-meta{display:flex;gap:1.5rem;color:var(--gray);font-size:.95rem;flex-wrap:wrap}
+        .article-image{width:100%;height:400px;object-fit:cover;border-radius:12px;margin-bottom:2rem;display:block}
+        .article-content{background:var(--white);padding:3rem 2rem;border-radius:12px;margin-bottom:2rem;font-size:1.05rem}
+        .article-content h2{font-size:1.75rem;margin:2rem 0 1rem;color:var(--navy)}
+        .article-content h3{font-size:1.4rem;margin:1.5rem 0 .75rem;color:var(--navy)}
+        .article-content p{margin-bottom:1rem}
+        .article-content ul,.article-content ol{margin:1rem 0 1rem 2rem}
+        .article-content li{margin-bottom:.5rem}
+        .article-content img{max-width:100%;height:auto;border-radius:8px;display:block;margin:1rem auto}
+        .article-content a{color:var(--gold)}
+        .affiliate-section{background:var(--white);padding:2rem;border-radius:12px;margin-bottom:2rem}
+        .affiliate-section h3{font-size:1.5rem;margin-bottom:1.5rem;color:var(--navy)}
+        .affiliate-grid{display:grid;gap:1.5rem}
+        .affiliate-card{border:2px solid var(--border);border-radius:12px;padding:1.5rem;display:flex;gap:1.5rem;transition:border-color .3s}
+        .affiliate-card:hover{border-color:var(--gold)}
+        .affiliate-image{width:150px;height:150px;object-fit:cover;border-radius:8px;flex-shrink:0}
+        .affiliate-details{flex:1}
+        .affiliate-name{font-size:1.25rem;font-weight:700;margin-bottom:.5rem;color:var(--navy)}
+        .affiliate-rating{color:var(--gold);margin-bottom:.5rem}
+        .affiliate-price{font-size:1.1rem;font-weight:600;color:var(--navy);margin-bottom:1rem}
+        .affiliate-links{display:flex;gap:.75rem;flex-wrap:wrap}
+        .affiliate-btn{padding:.75rem 1.5rem;border-radius:8px;text-decoration:none;font-weight:600;transition:all .3s;display:inline-block}
+        .btn-aff-primary{background:var(--gold);color:var(--white)}
+        .btn-aff-primary:hover{background:#c09020;transform:translateY(-2px)}
+        .btn-aff-secondary{background:var(--white);color:var(--navy);border:2px solid var(--navy)}
+        .btn-aff-secondary:hover{background:var(--navy);color:var(--white)}
+        .loading{text-align:center;padding:4rem 2rem}
+        .spinner{border:4px solid var(--border);border-top:4px solid var(--gold);border-radius:50%;width:50px;height:50px;animation:spin 1s linear infinite;margin:0 auto 1rem}
+        @keyframes spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+        @media(max-width:768px){.article-title{font-size:1.8rem}.article-image{height:250px}.affiliate-card{flex-direction:column}.affiliate-image{width:100%;height:200px}}
+    </style>
+</head>
+<body>
+
+<header>
+    <nav>
+        <a href="index.html" class="logo">Travel<span>Vietnam</span></a>
+        <a href="index.html" class="back-link">← Trang chủ</a>
+    </nav>
+</header>
+
+<div id="loadingState" class="loading">
+    <div class="spinner"></div>
+    <p>Đang tải bài viết...</p>
+</div>
+
+<div id="articleContainer" class="article-container" style="display:none;">
+    <div class="article-header">
+        <div id="articleCategory" class="article-category"></div>
+        <h1 id="articleTitle" class="article-title"></h1>
+        <div class="article-meta">
+            <span id="articleDate"></span>
+            <span id="articleViews"></span>
+            <span id="articleDestination"></span>
+        </div>
+    </div>
+    <img id="articleImage" class="article-image" alt="" style="display:none;">
+    <div id="articleContent" class="article-content"></div>
+    <div id="hotelsSection" class="affiliate-section" style="display:none;">
+        <h3>🏨 Khách sạn đề xuất</h3>
+        <div id="hotelsList" class="affiliate-grid"></div>
+    </div>
+    <div id="activitiesSection" class="affiliate-section" style="display:none;">
+        <h3>🎫 Hoạt động & Tour</h3>
+        <div id="activitiesList" class="affiliate-grid"></div>
+    </div>
+</div>
+
+<script src="config.js"></script>
+<script src="translations.js"></script>
+<script>
+/* =========================================================
+   POST.HTML — FIXED VERSION
+   Lỗi đã sửa:
+   1. normalizePostFields: thêm 'featureimage' vào pick (giống index)
+   2. Debug log chạy trước null check → crash → đã dời xuống sau check
+   3. post.html không crash nếu post = null
+========================================================= */
+
+var slug = new URLSearchParams(window.location.search).get('slug');
+
+document.addEventListener('DOMContentLoaded', function() {
+    if (!slug) { window.location.href = 'index.html'; return; }
+    loadPost();
+});
+
+// ── Normalize — FIX: featureimage added ─────────────────────────────────────
+function normalizePostFields(raw) {
+    if (!raw || typeof raw !== 'object') return raw;
+    // Trim keys trước (Sheet hay có khoảng trắng thừa)
+    var cleaned = {};
+    Object.keys(raw).forEach(function(k){ cleaned[k.trim()] = raw[k]; });
+
+    var lk = {};
+    Object.keys(cleaned).forEach(function(k){
+        lk[k.toLowerCase().replace(/[^a-z0-9]/g,'')] = cleaned[k];
+    });
+
+    function pick() {
+        for (var i=0;i<arguments.length;i++){
+            var v = lk[arguments[i]];
+            if (v !== undefined && v !== null && v !== '') return v;
+        }
+        return undefined;
+    }
+
+    var n = {};
+    // Truyền qua tất cả cleaned keys để không mất trường nào
+    Object.keys(cleaned).forEach(function(k){ n[k] = cleaned[k]; });
+
+    n.post_id         = pick('postid','post_id','id');
+    n.title           = pick('title','posttitle');
+    n.slug            = pick('slug');
+    n.category        = pick('category','type');
+    n.status          = pick('status');
+    n.views           = pick('views','viewcount');
+    n.created_date    = pick('createddate','date','createdat');
+    n.published_date  = pick('publisheddate','createddate','date','createdat');
+    n.destination     = pick('destination','location');
+    n.excerpt         = pick('excerpt','summary','description');
+    n.meta_description= pick('metadescription','metadesc') || n.excerpt || '';
+    // ✅ FIX: 'featureimage' = Apps Script cột "feature_image" sau khi clean
+    n.featured_image  = pick('featureimage','featuredimage','feature_image','image','thumbnail','imageurl','photo');
+    n.content         = pick('content','body','html');
+    n.tags            = pick('tags','seokeywords','keywords');
+    n.author          = pick('author');
+    n.hotels          = pick('affiliatehotels','hotels');
+    n.activities      = pick('affiliateactivities','activities');
+    return n;
+}
+
+// ── Load ─────────────────────────────────────────────────────────────────────
+async function loadPost() {
+    try {
+        var post = null;
+
+        // Bước 1: Thử single endpoint
+        try {
+            var r1  = await fetch(CONFIG.SCRIPT_URL + '?path=post&id=' + encodeURIComponent(slug));
+            var raw1 = await r1.json();
+            if (raw1 && !raw1.error && typeof raw1 === 'object') {
+                var tmp = normalizePostFields(raw1);
+                if (tmp.title || tmp.content) post = tmp;
+            }
+        } catch(e) { console.warn('single fetch failed', e); }
+
+        // Bước 2: Fallback — lấy all posts, tìm theo slug
+        if (!post) {
+            var r2   = await fetch(CONFIG.SCRIPT_URL + '?path=posts&admin=true');
+            var all  = await r2.json();
+            var arr  = Array.isArray(all) ? all
+                     : (all && Array.isArray(all.posts)) ? all.posts
+                     : (all && Array.isArray(all.data))  ? all.data : [];
+            var norm = arr.map(normalizePostFields);
+            post = norm.find(function(p){ return String(p.slug)    === String(slug); })
+                || norm.find(function(p){ return String(p.post_id) === String(slug); });
+        }
+
+        // ✅ FIX: null check TRƯỚC khi log (file cũ log trước check → crash)
+        if (!post) throw new Error('Không tìm thấy bài viết: ' + slug);
+
+        console.log('POST LOADED | title:', post.title, '| featured_image:', post.featured_image, '| status:', post.status);
+
+        renderPost(post);
+        if (post.post_id) trackView(post.post_id);
+
+    } catch(err) {
+        console.error('loadPost error:', err);
+        document.getElementById('loadingState').innerHTML =
+            '<div style="text-align:center;padding:4rem 2rem;color:#6b7280;">'
+            +'<p style="font-size:2rem;margin-bottom:1rem;">😕</p>'
+            +'<p style="font-size:1.1rem;margin-bottom:1.5rem;">Không thể tải bài viết</p>'
+            +'<a href="index.html" style="color:#d4af37;font-weight:600;text-decoration:none;">← Quay lại trang chủ</a>'
+            +'</div>';
+    }
+}
+
+// ── Render ───────────────────────────────────────────────────────────────────
+function renderPost(post) {
+    document.getElementById('loadingState').style.display = 'none';
+    document.getElementById('articleContainer').style.display = 'block';
+
+    // Meta
+    document.title = (post.title || 'Bài viết') + ' - Travel Vietnam';
+    document.getElementById('pageDescription').setAttribute('content', post.meta_description || post.excerpt || '');
+
+    // Header
+    document.getElementById('articleCategory').textContent    = getCatLabel(post.category);
+    document.getElementById('articleTitle').textContent       = post.title || '(Chưa có tiêu đề)';
+    document.getElementById('articleDate').textContent        = post.published_date ? fmtDate(post.published_date) : '';
+    document.getElementById('articleViews').textContent       = '👁 ' + (post.views || 0) + ' lượt xem';
+    document.getElementById('articleDestination').textContent = post.destination ? ('📍 ' + post.destination) : '';
+
+    // Featured image — hiện khi có URL hợp lệ
+    var imgEl = document.getElementById('articleImage');
+    var imgUrl = post.featured_image ? String(post.featured_image).trim() : '';
+    if (imgUrl && imgUrl.startsWith('http')) {
+        imgEl.src   = imgUrl;
+        imgEl.alt   = post.title || '';
+        imgEl.style.display = 'block';
+        imgEl.onerror = function(){ this.style.display = 'none'; };
+    } else {
+        imgEl.style.display = 'none';
+    }
+
+    // Content
+    var rawContent = post.content || '';
+    var tmp = document.createElement('div');
+    tmp.innerHTML = rawContent;
+    // Fix ảnh bên trong content
+    tmp.querySelectorAll('img').forEach(function(img){
+        var src = img.getAttribute('src');
+        if (!src || src === 'undefined' || src === 'null' || !src.startsWith('http')) {
+            img.style.display = 'none';
+        } else {
+            img.style.maxWidth  = '100%';
+            img.style.height    = 'auto';
+            img.style.borderRadius = '8px';
+        }
+    });
+    document.getElementById('articleContent').innerHTML = tmp.innerHTML || '<p style="color:#9ca3af;">Nội dung đang được cập nhật...</p>';
+
+    // Affiliate hotels
+    if (post.hotels && post.hotels.length > 0) {
+        document.getElementById('hotelsSection').style.display = 'block';
+        document.getElementById('hotelsList').innerHTML = post.hotels.map(hotelCard).join('');
+        document.querySelectorAll('.hotel-link').forEach(function(link){
+            link.addEventListener('click', function(){
+                trackClick(post.post_id, link.dataset.platform);
+            });
+        });
+    }
+
+    // Affiliate activities
+    if (post.activities && post.activities.length > 0) {
+        document.getElementById('activitiesSection').style.display = 'block';
+        document.getElementById('activitiesList').innerHTML = post.activities.map(activityCard).join('');
+        document.querySelectorAll('.activity-link').forEach(function(link){
+            link.addEventListener('click', function(){
+                trackClick(post.post_id, link.dataset.platform);
+            });
+        });
+    }
+}
+
+// ── Affiliate cards ──────────────────────────────────────────────────────────
+function hotelCard(h) {
+    return '<div class="affiliate-card">'
+        +'<img src="'+(h.image_url||'')+'" alt="'+(h.hotel_name||'')+'" class="affiliate-image" onerror="this.style.display=\'none\'">'
+        +'<div class="affiliate-details">'
+            +'<h4 class="affiliate-name">'+(h.hotel_name||'')+'</h4>'
+            +'<div class="affiliate-rating">⭐ '+(h.rating||'')+'/5</div>'
+            +'<div class="affiliate-price">Từ '+fmtPrice(h.price_from)+' '+(h.currency||'')+'/đêm</div>'
+            +'<div class="affiliate-links">'
+                +(h.agoda_link?'<a href="'+h.agoda_link+'" target="_blank" rel="noopener nofollow" class="affiliate-btn btn-aff-primary hotel-link" data-platform="agoda">Xem giá Agoda</a>':'')
+                +(h.booking_link?'<a href="'+h.booking_link+'" target="_blank" rel="noopener nofollow" class="affiliate-btn btn-aff-secondary hotel-link" data-platform="booking">Xem giá Booking</a>':'')
+            +'</div>'
+        +'</div></div>';
+}
+
+function activityCard(a) {
+    return '<div class="affiliate-card">'
+        +'<img src="'+(a.image_url||'')+'" alt="'+(a.activity_name||'')+'" class="affiliate-image" onerror="this.style.display=\'none\'">'
+        +'<div class="affiliate-details">'
+            +'<h4 class="affiliate-name">'+(a.activity_name||'')+'</h4>'
+            +'<div class="affiliate-price">Từ '+fmtPrice(a.price_from)+' '+(a.currency||'')+'</div>'
+            +'<div class="affiliate-links">'
+                +(a.klook_link?'<a href="'+a.klook_link+'" target="_blank" rel="noopener nofollow" class="affiliate-btn btn-aff-primary activity-link" data-platform="klook">Đặt qua Klook</a>':'')
+                +(a.traveloka_link?'<a href="'+a.traveloka_link+'" target="_blank" rel="noopener nofollow" class="affiliate-btn btn-aff-secondary activity-link" data-platform="traveloka">Đặt qua Traveloka</a>':'')
+            +'</div>'
+        +'</div></div>';
+}
+
+// ── Analytics ────────────────────────────────────────────────────────────────
+async function trackView(postId) {
+    try {
+        await fetch(CONFIG.SCRIPT_URL, {
+            method:'POST', headers:{'Content-Type':'text/plain'},
+            body: JSON.stringify({action:'track_view', post_id:postId})
+        });
+    } catch(e){}
+}
+async function trackClick(postId, platform) {
+    try {
+        await fetch(CONFIG.SCRIPT_URL, {
+            method:'POST', headers:{'Content-Type':'text/plain'},
+            body: JSON.stringify({action:'track_click', post_id:postId, platform:platform})
+        });
+    } catch(e){}
+}
+
+// ── Utilities ────────────────────────────────────────────────────────────────
+function getCatLabel(cat) {
+    return {review:'Review', itinerary:'Itinerary', comparison:'So sánh'}[cat] || cat || '';
+}
+function fmtDate(s) {
+    if (!s) return '';
+    var d = new Date(s);
+    return isNaN(d)?s:d.toLocaleDateString('vi-VN',{year:'numeric',month:'long',day:'numeric'});
+}
+function fmtPrice(n) {
+    return new Intl.NumberFormat('vi-VN').format(n||0);
+}
+</script>
+</body>
+</html>

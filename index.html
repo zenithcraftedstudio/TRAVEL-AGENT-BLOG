@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel Vietnam AI Blog - Khám phá Việt Nam</title>
+    <meta name="description" content="Blog du lịch Việt Nam với AI, review khách sạn, tour du lịch, và hướng dẫn chi tiết">
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        :root{--navy:#1a2332;--cream:#f5f1e8;--gold:#d4af37;--white:#ffffff;--gray:#6b7280;--border:#e5e7eb}
+        body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;line-height:1.6;color:var(--navy);background:var(--cream)}
+        header{background:var(--white);box-shadow:0 2px 8px rgba(0,0,0,.05);position:sticky;top:0;z-index:100}
+        nav{max-width:1200px;margin:0 auto;padding:1rem 2rem;display:flex;justify-content:space-between;align-items:center}
+        .logo{font-size:1.5rem;font-weight:700;color:var(--navy);text-decoration:none}
+        .logo span{color:var(--gold)}
+        .nav-links{display:flex;gap:2rem;list-style:none}
+        .nav-links a{color:var(--navy);text-decoration:none;font-weight:500;transition:color .3s}
+        .nav-links a:hover{color:var(--gold)}
+        .lang-toggle{display:flex;gap:.5rem;align-items:center}
+        .lang-btn{padding:.5rem .75rem;border:2px solid var(--border);background:var(--white);color:var(--navy);border-radius:6px;font-weight:600;cursor:pointer;transition:all .3s;font-size:.9rem}
+        .lang-btn:hover{border-color:var(--gold);color:var(--gold)}
+        .lang-btn.active{background:var(--gold);color:var(--white);border-color:var(--gold)}
+        .hero{background:linear-gradient(135deg,var(--navy) 0%,#2d3e50 100%);color:var(--white);padding:4rem 2rem;text-align:center}
+        .hero h1{font-size:2.5rem;margin-bottom:1rem}
+        .hero p{font-size:1.2rem;opacity:.9;max-width:600px;margin:0 auto}
+        .container{max-width:1200px;margin:0 auto;padding:3rem 2rem}
+        .filter-bar{background:var(--white);padding:1.5rem;border-radius:12px;margin-bottom:2rem;display:flex;gap:1rem;flex-wrap:wrap;align-items:center}
+        .filter-bar select,.filter-bar input{padding:.75rem 1rem;border:1px solid var(--border);border-radius:8px;font-size:1rem;background:var(--white)}
+        .filter-bar input{flex:1;min-width:250px}
+        .posts-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(350px,1fr));gap:2rem;margin-top:2rem}
+        .post-card{background:var(--white);border-radius:12px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,.08);transition:transform .3s,box-shadow .3s;cursor:pointer}
+        .post-card:hover{transform:translateY(-4px);box-shadow:0 8px 24px rgba(0,0,0,.12)}
+        .post-image{width:100%;height:220px;object-fit:cover;display:block;background:var(--cream)}
+        .post-content{padding:1.5rem}
+        .post-meta{display:flex;gap:1rem;margin-bottom:.75rem;font-size:.875rem;color:var(--gray)}
+        .post-category{background:var(--gold);color:var(--white);padding:.25rem .75rem;border-radius:4px;font-weight:600;text-transform:uppercase;font-size:.75rem}
+        .post-title{font-size:1.25rem;font-weight:700;margin-bottom:.5rem;color:var(--navy)}
+        .post-excerpt{color:var(--gray);font-size:.95rem;margin-bottom:1rem}
+        .post-footer{display:flex;justify-content:space-between;align-items:center;padding-top:1rem;border-top:1px solid var(--border)}
+        .read-more{color:var(--gold);font-weight:600;text-decoration:none}
+        .post-views{color:var(--gray);font-size:.875rem}
+        .loading{text-align:center;padding:4rem 2rem}
+        .spinner{border:4px solid var(--border);border-top:4px solid var(--gold);border-radius:50%;width:50px;height:50px;animation:spin 1s linear infinite;margin:0 auto 1rem}
+        @keyframes spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+        .empty-state{text-align:center;padding:4rem 2rem;color:var(--gray)}
+        .empty-state h3{font-size:1.5rem;margin-bottom:.5rem;color:var(--navy)}
+        .setup-notice{background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:white;padding:1rem 2rem;text-align:center;display:none}
+        .setup-notice.show{display:block}
+        .setup-notice a{color:var(--gold);text-decoration:underline;font-weight:600}
+        .mobile-menu-btn{display:none;background:none;border:none;font-size:1.5rem;cursor:pointer;color:var(--navy)}
+        @media(max-width:768px){.nav-links{display:none}.mobile-menu-btn{display:block}.hero h1{font-size:1.8rem}.posts-grid{grid-template-columns:1fr}}
+    </style>
+</head>
+<body>
+
+<header>
+    <nav>
+        <a href="index.html" class="logo">Travel<span>Vietnam</span></a>
+        <ul class="nav-links">
+            <li><a href="#" data-category="all"        data-text="nav_all">Tất cả</a></li>
+            <li><a href="#" data-category="review"     data-text="nav_reviews">Reviews</a></li>
+            <li><a href="#" data-category="itinerary"  data-text="nav_itinerary">Lịch trình</a></li>
+            <li><a href="#" data-category="comparison" data-text="nav_comparison">So sánh</a></li>
+        </ul>
+        <div class="lang-toggle">
+            <button class="lang-btn" data-lang="vi">VI</button>
+            <button class="lang-btn" data-lang="en">EN</button>
+        </div>
+        <button class="mobile-menu-btn">☰</button>
+    </nav>
+</header>
+
+<div id="setupNotice" class="setup-notice">
+    <p><strong>📝 Demo Mode:</strong>
+    <span id="noticeText">Bạn đang xem bài viết mẫu. Để hiển thị bài viết thật, vui lòng setup Google Apps Script.</span>
+    <a href="SETUP_GUIDE.md" target="_blank" id="noticeLink">Xem hướng dẫn →</a></p>
+</div>
+
+<section class="hero">
+    <h1 id="heroTitle">Khám phá Việt Nam</h1>
+    <p id="heroSubtitle">Reviews chi tiết, lịch trình tối ưu, và gợi ý khách sạn tốt nhất</p>
+</section>
+
+<main class="container">
+    <div class="filter-bar">
+        <input type="text" id="searchInput" placeholder="Tìm kiếm địa điểm, khách sạn..." data-placeholder="filter_search">
+        <select id="categoryFilter">
+            <option value="all">Tất cả loại</option>
+            <option value="review">Review</option>
+            <option value="itinerary">Lịch trình</option>
+            <option value="comparison">So sánh</option>
+        </select>
+        <select id="sortBy">
+            <option value="newest">Mới nhất</option>
+            <option value="popular">Phổ biến</option>
+        </select>
+    </div>
+
+    <div id="loadingState" class="loading">
+        <div class="spinner"></div>
+        <p id="loadingText">Đang tải bài viết...</p>
+    </div>
+
+    <div id="postsGrid" class="posts-grid" style="display:none;"></div>
+
+    <div id="emptyState" class="empty-state" style="display:none;">
+        <h3>Không tìm thấy bài viết</h3>
+        <p>Thử tìm kiếm với từ khóa khác</p>
+    </div>
+</main>
+
+<script src="config.js"></script>
+<script src="translations.js"></script>
+<script>
+/* =========================================================
+   INDEX.HTML — FIXED VERSION
+   Lỗi đã sửa:
+   1. normalizePostFields: thêm 'featureimage' vào pick list
+      (Apps Script ghi cột "feature_image" → clean key "featureimage")
+   2. Chỉ hiển thị bài status = 'published'
+   3. Fallback image dùng placehold.co thay vì placeholder bị chặn
+========================================================= */
+
+var allPosts = [], filteredPosts = [], currentLang = 'vi';
+
+document.addEventListener('DOMContentLoaded', async function() {
+    if (typeof getCurrentLanguage === 'function') currentLang = getCurrentLanguage();
+    try { if (typeof loadTranslations === 'function') await loadTranslations(); } catch(e){}
+    initLang();
+    await loadPosts();
+    setupEvents();
+});
+
+// ── Language ────────────────────────────────────────────────────────────────
+function initLang() {
+    if (typeof getCurrentLanguage === 'function') currentLang = getCurrentLanguage();
+    document.querySelectorAll('.lang-btn').forEach(function(b){
+        b.classList.toggle('active', b.dataset.lang === currentLang);
+    });
+    // Hero
+    var h = document.getElementById('heroTitle');
+    var s = document.getElementById('heroSubtitle');
+    if (h && typeof t === 'function') { var v=t('hero_title'); if(v) h.textContent=v; }
+    if (s && typeof t === 'function') { var v=t('hero_subtitle'); if(v) s.textContent=v; }
+    // data-text elements
+    if (typeof t === 'function') {
+        document.querySelectorAll('[data-text]').forEach(function(el){
+            var v=t(el.dataset.text); if(v) el.textContent=v;
+        });
+        document.querySelectorAll('[data-placeholder]').forEach(function(el){
+            var v=t(el.dataset.placeholder); if(v) el.placeholder=v;
+        });
+    }
+}
+
+function setupLangToggle() {
+    document.querySelectorAll('.lang-btn').forEach(function(b){
+        b.addEventListener('click', function(){
+            if (b.dataset.lang === currentLang) return;
+            if (typeof setLanguage === 'function') setLanguage(b.dataset.lang);
+            currentLang = b.dataset.lang;
+            initLang();
+            renderPosts(filteredPosts);
+        });
+    });
+}
+
+// ── Normalize — FIX: thêm 'featureimage' ───────────────────────────────────
+function normalizePostFields(raw) {
+    if (!raw || typeof raw !== 'object') return raw;
+    // Lowercase + strip non-alphanumeric → lookup map
+    var lk = {};
+    for (var k in raw) {
+        lk[String(k).trim().toLowerCase().replace(/[^a-z0-9]/g,'')] = raw[k];
+    }
+    function pick() {
+        for (var i=0;i<arguments.length;i++){
+            var v = lk[arguments[i]];
+            if (v !== undefined && v !== null && v !== '') return v;
+        }
+        return undefined;
+    }
+    var n = {};
+    n.post_id        = pick('postid','post_id','id');
+    n.title          = pick('title');
+    n.slug           = pick('slug');
+    n.category       = pick('category','type');
+    n.status         = pick('status');
+    n.views          = pick('views','viewcount');
+    n.published_date = pick('publisheddate','createddate','date','createdat');
+    n.destination    = pick('destination','location');
+    n.excerpt        = pick('excerpt','summary','description');
+    // ✅ FIX CHÍNH: Apps Script ghi cột tên "feature_image"
+    //   → sau khi strip dấu gạch dưới → clean key = "featureimage"
+    //   → file cũ chỉ có 'featuredimage' (thiếu 'd') → không match → ảnh trắng
+    n.featured_image = pick('featureimage','featuredimage','feature_image','featured_image','image','thumbnail','imageurl','photo');
+    n.content        = pick('content','body');
+    n.tags           = pick('tags','seokeywords');
+    return n;
+}
+
+// ── Load posts ──────────────────────────────────────────────────────────────
+async function loadPosts() {
+    try {
+        if (!window.CONFIG || !CONFIG.SCRIPT_URL || CONFIG.SCRIPT_URL.includes('YOUR_GOOGLE')) {
+            allPosts = getDemoData();
+            filteredPosts = allPosts;
+            renderPosts(allPosts);
+            return;
+        }
+
+        // Cache check
+        var cached = getCached();
+        if (cached) {
+            allPosts = cached.map(normalizePostFields);
+            filteredPosts = allPosts;
+            renderPosts(allPosts);
+            return;
+        }
+
+        var res = await fetch(CONFIG.SCRIPT_URL + '?path=posts');
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        var data = await res.json();
+
+        if (!Array.isArray(data) || data.length === 0) {
+            allPosts = getDemoData();
+        } else {
+            // Normalize + chỉ lấy published
+            allPosts = data.map(normalizePostFields).filter(function(p){ return p.status === 'published'; });
+        }
+
+        filteredPosts = allPosts;
+        setCache(allPosts);
+        renderPosts(allPosts);
+
+    } catch(err) {
+        console.error('loadPosts error:', err);
+        allPosts = getDemoData();
+        filteredPosts = allPosts;
+        renderPosts(allPosts);
+    }
+}
+
+// ── Render ──────────────────────────────────────────────────────────────────
+function renderPosts(posts) {
+    var grid    = document.getElementById('postsGrid');
+    var loading = document.getElementById('loadingState');
+    var empty   = document.getElementById('emptyState');
+
+    loading.style.display = 'none';
+
+    if (!posts || posts.length === 0) {
+        grid.style.display  = 'none';
+        empty.style.display = 'block';
+        return;
+    }
+
+    empty.style.display = 'none';
+    grid.style.display  = 'grid';
+    grid.innerHTML = posts.map(createCard).join('');
+
+    document.querySelectorAll('.post-card').forEach(function(card){
+        card.addEventListener('click', function(){
+            window.location.href = 'post.html?slug=' + encodeURIComponent(card.dataset.slug);
+        });
+    });
+}
+
+function createCard(post) {
+    var catLabel  = (typeof t==='function'?t('category_'+post.category):'')||post.category||'Post';
+    var readMore  = (typeof t==='function'?t('post_read_more'):'')||'Đọc tiếp';
+    var viewsLbl  = (typeof t==='function'?t('post_views'):'')||'lượt xem';
+    var dateStr   = ''; try { dateStr = fmtDate(post.published_date); } catch(e){}
+
+    // ✅ Dùng placehold.co (không bị chặn) thay cho via.placeholder.com
+    var img = (post.featured_image && String(post.featured_image).startsWith('http'))
+        ? post.featured_image
+        : 'https://placehold.co/400x220/1a2332/d4af37?text=No+Image';
+
+    var slug    = esc(post.slug   || '');
+    var title   = esc(post.title  || 'Untitled');
+    var excerpt = esc(post.excerpt|| '');
+
+    return '<article class="post-card" data-slug="'+slug+'">'
+        +'<img src="'+img+'" alt="'+title+'" class="post-image" loading="lazy" onerror="this.src=\'https://placehold.co/400x220/1a2332/d4af37?text=No+Image\'">'
+        +'<div class="post-content">'
+            +'<div class="post-meta"><span class="post-category">'+catLabel+'</span><span>'+dateStr+'</span></div>'
+            +'<h2 class="post-title">'+title+'</h2>'
+            +'<p class="post-excerpt">'+excerpt+'</p>'
+            +'<div class="post-footer">'
+                +'<a href="post.html?slug='+slug+'" class="read-more">'+readMore+' →</a>'
+                +'<span class="post-views">👁 '+(post.views||0)+' '+viewsLbl+'</span>'
+            +'</div>'
+        +'</div></article>';
+}
+
+// ── Events ──────────────────────────────────────────────────────────────────
+function setupEvents() {
+    document.getElementById('searchInput').addEventListener('input', debounce(filter, 300));
+    document.getElementById('categoryFilter').addEventListener('change', filter);
+    document.getElementById('sortBy').addEventListener('change', sortAndRender);
+    document.querySelectorAll('.nav-links a').forEach(function(link){
+        link.addEventListener('click', function(e){
+            e.preventDefault();
+            var cat = e.currentTarget.dataset.category;
+            if (cat) { document.getElementById('categoryFilter').value = cat; filter(); }
+        });
+    });
+    setupLangToggle();
+}
+
+function filter() {
+    var q   = document.getElementById('searchInput').value.toLowerCase();
+    var cat = document.getElementById('categoryFilter').value;
+    filteredPosts = allPosts.filter(function(p){
+        var ms = !q
+            ||(p.title||'').toLowerCase().includes(q)
+            ||(p.excerpt||'').toLowerCase().includes(q)
+            ||(p.destination||'').toLowerCase().includes(q);
+        var mc = cat==='all'||p.category===cat;
+        return ms && mc;
+    });
+    sortAndRender();
+}
+
+function sortAndRender() {
+    var by = document.getElementById('sortBy').value;
+    if (by==='newest') filteredPosts.sort(function(a,b){ return new Date(b.published_date)-new Date(a.published_date); });
+    else if (by==='popular') filteredPosts.sort(function(a,b){ return (b.views||0)-(a.views||0); });
+    renderPosts(filteredPosts);
+}
+
+// ── Cache ───────────────────────────────────────────────────────────────────
+function getCached() {
+    try {
+        var key = (window.CONFIG&&CONFIG.CACHE_KEY)||'tv_posts_cache';
+        var raw = localStorage.getItem(key); if (!raw) return null;
+        var obj = JSON.parse(raw);
+        var dur = (window.CONFIG&&CONFIG.CACHE_DURATION)||300000;
+        if (Date.now()-obj.ts > dur) { localStorage.removeItem(key); return null; }
+        return obj.data;
+    } catch(e){ return null; }
+}
+function setCache(data) {
+    try {
+        var key = (window.CONFIG&&CONFIG.CACHE_KEY)||'tv_posts_cache';
+        localStorage.setItem(key, JSON.stringify({data:data, ts:Date.now()}));
+    } catch(e){}
+}
+
+// ── Utilities ───────────────────────────────────────────────────────────────
+function fmtDate(s) {
+    if (!s) return '';
+    var d = new Date(s);
+    if (isNaN(d)) return s;
+    return d.toLocaleDateString(currentLang==='en'?'en-US':'vi-VN',{year:'numeric',month:'long',day:'numeric'});
+}
+function esc(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;'); }
+function debounce(fn, ms) { var t; return function(){ clearTimeout(t); t=setTimeout(fn,ms); }; }
+
+// ── Demo data ───────────────────────────────────────────────────────────────
+function getDemoData() {
+    document.getElementById('setupNotice').classList.add('show');
+    return currentLang==='en'?[
+        {post_id:'demo_001',title:'Top 10 Must-Visit Places in Da Nang',slug:'top-10-da-nang',category:'review',destination:'Da Nang, Vietnam',excerpt:'Discover the most beautiful beaches, ancient temples, and modern attractions.',featured_image:'https://images.unsplash.com/photo-1583417319070-4a69db38a482?w=800',status:'published',published_date:'2025-05-01',views:1250},
+        {post_id:'demo_002',title:'3 Days in Hanoi: Perfect Itinerary',slug:'3-days-hanoi',category:'itinerary',destination:'Hanoi, Vietnam',excerpt:'Complete 3-day itinerary to explore Hanoi from Old Quarter to Halong Bay.',featured_image:'https://images.unsplash.com/photo-1505864990768-7ad5e7ccc5d3?w=800',status:'published',published_date:'2025-04-28',views:980},
+        {post_id:'demo_003',title:'Phu Quoc vs Nha Trang: Which Beach is Better?',slug:'phu-quoc-vs-nha-trang',category:'comparison',destination:'Vietnam',excerpt:"Detailed comparison of Vietnam's two most famous beach destinations.",featured_image:'https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=800',status:'published',published_date:'2025-04-25',views:856}
+    ]:[
+        {post_id:'demo_001',title:'Top 10 Địa Điểm Phải Đến Ở Đà Nẵng',slug:'top-10-da-nang',category:'review',destination:'Đà Nẵng, Việt Nam',excerpt:'Khám phá những bãi biển đẹp nhất, đền cổ, và điểm tham quan hiện đại tại Đà Nẵng.',featured_image:'https://images.unsplash.com/photo-1583417319070-4a69db38a482?w=800',status:'published',published_date:'2025-05-01',views:1250},
+        {post_id:'demo_002',title:'3 Ngày 2 Đêm Hà Nội: Lịch Trình Hoàn Hảo',slug:'3-days-hanoi',category:'itinerary',destination:'Hà Nội, Việt Nam',excerpt:'Lịch trình chi tiết 3 ngày khám phá Hà Nội từ Phố Cổ đến Vịnh Hạ Long.',featured_image:'https://images.unsplash.com/photo-1505864990768-7ad5e7ccc5d3?w=800',status:'published',published_date:'2025-04-28',views:980},
+        {post_id:'demo_003',title:'Phú Quốc vs Nha Trang: Biển Nào Đẹp Hơn?',slug:'phu-quoc-vs-nha-trang',category:'comparison',destination:'Việt Nam',excerpt:'So sánh chi tiết hai bãi biển nổi tiếng nhất Việt Nam.',featured_image:'https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=800',status:'published',published_date:'2025-04-25',views:856}
+    ];
+}
+</script>
+</body>
+</html>
