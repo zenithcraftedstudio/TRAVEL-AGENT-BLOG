@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+  <!-- Homepage -->
+  <url>
+    <loc>https://zenithcraftedstudio.github.io/TRAVEL-AGENT-BLOG/</loc>
+    <lastmod>2026-05-07</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+
+  <!-- Bài viết đã published -->
+  <url>
+    <loc>https://zenithcraftedstudio.github.io/TRAVEL-AGENT-BLOG/post.html?slug=2026-da-nang-co-gi-choi-top-10-dia-diem-pha-dao-thanh-pho-dang-song-nhat-viet-nam</loc>
+    <lastmod>2026-05-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- THÊM BÀI MỚI Ở ĐÂY — copy block <url> trên, đổi slug và lastmod -->
+
+</urlset>
