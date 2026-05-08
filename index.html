@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#1a2332">
+<title>Travel Vietnam - Khám phá Việt Nam</title>
+<meta name="description" content="Blog du lịch Việt Nam: review khách sạn, lịch trình tour, so sánh điểm đến và plan cá nhân hoá.">
+
+<link rel="preconnect" href="https://script.google.com">
+<link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+:root{
+  --navy:#1a2332;--navy-2:#2a3548;--cream:#f5f1e8;--cream-2:#faf6ed;
+  --gold:#d4af37;--gold-d:#b8941f;--white:#fff;--gray:#6b7280;--gray-2:#9ca3af;--border:#e5e7eb;
+  --shadow:0 1px 3px rgba(26,35,50,.06),0 4px 12px rgba(26,35,50,.04);
+  --shadow-h:0 4px 12px rgba(26,35,50,.08),0 12px 32px rgba(26,35,50,.08);
+  --r-sm:6px;--r-md:10px;--r-lg:14px;
+}
+html{-webkit-text-size-adjust:100%}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;line-height:1.6;color:var(--navy);background:var(--cream);overflow-x:hidden;font-size:16px}
+img{max-width:100%;display:block}
+button{font-family:inherit;cursor:pointer}
+a{text-decoration:none;color:inherit}
+
+/* ── Header ── */
+header{background:var(--white);position:sticky;top:0;z-index:100;border-bottom:1px solid var(--border)}
+nav{max-width:1200px;margin:0 auto;padding:.85rem 1rem;display:flex;justify-content:space-between;align-items:center;gap:.5rem}
+.logo{font-size:1.25rem;font-weight:800;color:var(--navy);letter-spacing:-.5px;flex-shrink:0}
+.logo span{color:var(--gold)}
+.nav-links{display:flex;gap:1.5rem;list-style:none}
+.nav-links a{color:var(--navy);font-weight:500;font-size:.95rem;padding:.4rem 0;position:relative;transition:color .2s}
+.nav-links a::after{content:'';position:absolute;left:0;bottom:0;width:0;height:2px;background:var(--gold);transition:width .25s}
+.nav-links a:hover{color:var(--gold)}
+.nav-links a:hover::after,.nav-links a.active::after{width:100%}
+.lang-toggle{display:flex;gap:.25rem;background:var(--cream);padding:3px;border-radius:var(--r-sm)}
+.lang-btn{padding:.4rem .65rem;border:none;background:transparent;color:var(--navy);border-radius:4px;font-weight:600;font-size:.82rem;transition:all .2s}
+.lang-btn.active{background:var(--gold);color:var(--white);box-shadow:0 1px 2px rgba(0,0,0,.1)}
+.menu-btn{display:none;background:none;border:none;font-size:1.4rem;color:var(--navy);padding:.3rem .5rem}
+
+/* ── Hero ── */
+.hero{background:linear-gradient(135deg,var(--navy) 0%,#243149 100%);color:var(--white);padding:3rem 1rem 2.5rem;text-align:center;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 80% 20%,rgba(212,175,55,.12),transparent 50%);pointer-events:none}
+.hero-inner{position:relative;max-width:720px;margin:0 auto}
+.hero h1{font-size:clamp(1.7rem,5vw,2.5rem);margin-bottom:.7rem;font-weight:700;letter-spacing:-.5px}
+.hero p{font-size:clamp(.95rem,2.5vw,1.1rem);opacity:.85;max-width:560px;margin:0 auto}
+
+/* ── Container ── */
+.container{max-width:1200px;margin:0 auto;padding:1.5rem 1rem 3rem}
+
+/* ── Filter ── */
+.filter-bar{background:var(--white);padding:.85rem;border-radius:var(--r-md);margin-bottom:1.5rem;display:flex;gap:.6rem;flex-wrap:wrap;align-items:center;box-shadow:var(--shadow)}
+.filter-bar input,.filter-bar select{padding:.7rem .85rem;border:1.5px solid var(--border);border-radius:var(--r-sm);font-size:.95rem;background:var(--white);font-family:inherit;color:var(--navy);transition:border-color .2s}
+.filter-bar input:focus,.filter-bar select:focus{outline:none;border-color:var(--gold)}
+.filter-bar input{flex:1 1 220px;min-width:0}
+.filter-bar select{flex-shrink:0}
+
+/* ── Posts grid ── */
+.posts-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:1.25rem}
+.post-card{background:var(--white);border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--shadow);transition:transform .25s,box-shadow .25s;display:flex;flex-direction:column}
+.post-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-h)}
+.post-img-wrap{position:relative;aspect-ratio:16/10;background:var(--cream);overflow:hidden}
+.post-img{width:100%;height:100%;object-fit:cover;transition:transform .4s}
+.post-card:hover .post-img{transform:scale(1.04)}
+.post-cat{position:absolute;top:.7rem;left:.7rem;background:var(--gold);color:var(--white);padding:.2rem .65rem;border-radius:4px;font-weight:700;text-transform:uppercase;font-size:.7rem;letter-spacing:.5px;backdrop-filter:blur(4px)}
+.post-body{padding:1.1rem 1.1rem 1.2rem;display:flex;flex-direction:column;flex:1}
+.post-meta{display:flex;gap:.75rem;margin-bottom:.5rem;font-size:.82rem;color:var(--gray);align-items:center}
+.post-title{font-size:1.08rem;font-weight:700;margin-bottom:.45rem;color:var(--navy);line-height:1.35;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.post-excerpt{color:var(--gray);font-size:.9rem;margin-bottom:.9rem;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;flex:1}
+.post-foot{display:flex;justify-content:space-between;align-items:center;padding-top:.85rem;border-top:1px solid var(--border);font-size:.82rem}
+.read-more{color:var(--gold);font-weight:700}
+.read-more::after{content:' →';transition:transform .2s;display:inline-block}
+.post-card:hover .read-more::after{transform:translateX(3px)}
+.post-views{color:var(--gray-2)}
+
+/* ── States ── */
+.loading,.empty-state{text-align:center;padding:3rem 1rem;color:var(--gray)}
+.spinner{border:3px solid var(--border);border-top:3px solid var(--gold);border-radius:50%;width:40px;height:40px;animation:spin .9s linear infinite;margin:0 auto 1rem}
+@keyframes spin{to{transform:rotate(360deg)}}
+.empty-state h3{font-size:1.2rem;margin-bottom:.5rem;color:var(--navy)}
+
+/* ── Demo notice ── */
+.notice{background:linear-gradient(135deg,#fef3c7,#fde68a);color:#78350f;padding:.75rem 1rem;text-align:center;font-size:.85rem;display:none}
+.notice.show{display:block}
+
+/* ── Sticky CTA (mobile) ── */
+.sticky-cta{position:fixed;bottom:1rem;right:1rem;z-index:50;display:none;flex-direction:column;gap:.5rem}
+.sticky-cta a{width:48px;height:48px;border-radius:50%;background:var(--gold);color:var(--white);display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(212,175,55,.4);font-size:1.3rem;transition:transform .2s}
+.sticky-cta a:hover{transform:scale(1.08)}
+.sticky-cta a.zalo{background:#0068ff}
+.sticky-cta.show{display:flex}
+
+/* ── Mobile ── */
+@media(max-width:768px){
+  .nav-links{display:none}
+  .menu-btn{display:block}
+  .nav-links.show{display:flex;position:absolute;top:100%;left:0;right:0;background:var(--white);flex-direction:column;padding:1rem;gap:1rem;border-bottom:1px solid var(--border);box-shadow:0 4px 12px rgba(0,0,0,.06)}
+  nav{position:relative}
+  .container{padding:1rem .85rem 5rem}
+  .posts-grid{grid-template-columns:1fr;gap:1rem}
+  .filter-bar{padding:.7rem}
+  .filter-bar select{flex:1}
+}
+@media(min-width:769px){.sticky-cta{display:flex}}
+
+/* ── Animations ── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.post-card{animation:fadeUp .4s ease-out backwards}
+.post-card:nth-child(1){animation-delay:.05s}.post-card:nth-child(2){animation-delay:.1s}
+.post-card:nth-child(3){animation-delay:.15s}.post-card:nth-child(4){animation-delay:.2s}
+.post-card:nth-child(5){animation-delay:.25s}.post-card:nth-child(6){animation-delay:.3s}
+</style>
+</head>
+<body>
+
+<header>
+<nav>
+  <a href="index.html" class="logo">Travel<span>Vietnam</span></a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#" data-cat="all" class="active">Tất cả</a></li>
+    <li><a href="#" data-cat="review">Reviews</a></li>
+    <li><a href="#" data-cat="itinerary">Lịch trình</a></li>
+    <li><a href="#" data-cat="comparison">So sánh</a></li>
+  </ul>
+  <div style="display:flex;gap:.5rem;align-items:center">
+    <div class="lang-toggle">
+      <button class="lang-btn active" data-lang="vi">VI</button>
+      <button class="lang-btn" data-lang="en">EN</button>
+    </div>
+    <button class="menu-btn" id="menuBtn" aria-label="Menu">☰</button>
+  </div>
+</nav>
+</header>
+
+<div id="setupNotice" class="notice">
+  📝 <strong>Demo Mode</strong> — Đang hiện bài mẫu. Cấu hình <code>config.js</code> để load bài thật từ Google Sheet.
+</div>
+
+<section class="hero">
+  <div class="hero-inner">
+    <h1 id="heroTitle">Khám phá Việt Nam</h1>
+    <p id="heroSubtitle">Reviews chi tiết, lịch trình tối ưu, gợi ý khách sạn tốt nhất</p>
+  </div>
+</section>
+
+<main class="container">
+  <div class="filter-bar">
+    <input type="text" id="searchInput" placeholder="Tìm kiếm địa điểm, khách sạn..." aria-label="Tìm kiếm">
+    <select id="categoryFilter" aria-label="Loại bài">
+      <option value="all">Tất cả loại</option>
+      <option value="review">Review</option>
+      <option value="itinerary">Lịch trình</option>
+      <option value="comparison">So sánh</option>
+    </select>
+    <select id="sortBy" aria-label="Sắp xếp">
+      <option value="newest">Mới nhất</option>
+      <option value="popular">Phổ biến</option>
+    </select>
+  </div>
+
+  <div id="loadingState" class="loading">
+    <div class="spinner"></div>
+    <p>Đang tải bài viết...</p>
+  </div>
+
+  <div id="postsGrid" class="posts-grid" style="display:none"></div>
+
+  <div id="emptyState" class="empty-state" style="display:none">
+    <h3>Không tìm thấy bài viết</h3>
+    <p>Thử tìm kiếm với từ khóa khác</p>
+  </div>
+</main>
+
+<!-- Sticky CTA: Zalo + Messenger để bán plan cá nhân hoá -->
+<div class="sticky-cta show" id="stickyCta">
+  <a href="https://zalo.me/" target="_blank" rel="noopener" class="zalo" title="Chat Zalo - Đặt plan cá nhân hoá" aria-label="Zalo">💬</a>
+  <a href="https://m.me/" target="_blank" rel="noopener" title="Chat Messenger" aria-label="Messenger">✉️</a>
+</div>
+
+<script src="config.js"></script>
+<script src="translations.js"></script>
+<script>
+/* ============================================================
+   INDEX.HTML — CLEAN BUILD
+   - Chỉ fallback demo khi CONFIG.SCRIPT_URL chưa cấu hình
+   - Field mapping thống nhất: featured_image
+   - Filter status === 'published' (case-insensitive, trim)
+   - Cache 5p, auto-clear khi admin save
+============================================================ */
+
+var allPosts=[],filtered=[],currentLang='vi';
+// Key cố định — không đọc từ CONFIG để tránh nhầm
+var CACHE_KEY='tv_posts_v3';
+var CACHE_MS=5*60*1000;
+// Xoá TẤT CẢ cache cũ ngay khi load trang
+(function(){['tv_posts_cache_v2','tv_posts_cache','travel_blog_cache','tv_posts_v2','travel_blog_cache_v2'].forEach(function(k){try{localStorage.removeItem(k);}catch(e){}});})();
+
+document.addEventListener('DOMContentLoaded',async function(){
+  if(typeof getCurrentLanguage==='function')currentLang=getCurrentLanguage();
+  try{if(typeof loadTranslations==='function')await loadTranslations();}catch(e){}
+  applyLang();
+  setupEvents();
+  await loadPosts();
+});
+
+/* ── Language ── */
+function applyLang(){
+  document.querySelectorAll('.lang-btn').forEach(function(b){
+    b.classList.toggle('active',b.dataset.lang===currentLang);
+  });
+  if(typeof t==='function'){
+    var h=document.getElementById('heroTitle');
+    var s=document.getElementById('heroSubtitle');
+    var v1=t('hero_title'),v2=t('hero_subtitle');
+    if(h&&v1)h.textContent=v1;
+    if(s&&v2)s.textContent=v2;
+    var search=document.getElementById('searchInput');
+    var sv=t('filter_search');
+    if(search&&sv)search.placeholder=sv;
+  }
+}
+
+/* ── Normalize: map mọi biến thể tên cột về schema chuẩn ── */
+function normalize(raw){
+  if(!raw||typeof raw!=='object')return null;
+  var lk={};
+  Object.keys(raw).forEach(function(k){
+    var c=String(k).trim().toLowerCase().replace(/[^a-z0-9]/g,'');
+    lk[c]=raw[k];
+  });
+  function pick(){
+    for(var i=0;i<arguments.length;i++){
+      var v=lk[arguments[i]];
+      if(v!==undefined&&v!==null&&String(v).trim()!=='')return v;
+    }
+    return '';
+  }
+  return {
+    post_id:pick('postid','id'),
+    title:pick('title','tiêuđề'),
+    slug:pick('slug'),
+    category:String(pick('category','type','loại')||'').toLowerCase().trim(),
+    status:String(pick('status','trạngthái')||'draft').toLowerCase().trim(),
+    views:Number(pick('views','viewcount'))||0,
+    published_date:pick('publisheddate','createddate','date','createdat')||'',
+    destination:pick('destination','location'),
+    excerpt:pick('excerpt','summary','description'),
+    featured_image:String(pick('featuredimage','featureimage','image','thumbnail','imageurl','photo')||'').trim(),
+    content:pick('content','body','html')
+  };
+}
+
+/* ── Load ── */
+async function loadPosts(){
+  // Dùng typeof CONFIG thay vì window.CONFIG (const không gắn vào window)
+  var hasConfig = typeof CONFIG !== 'undefined' && CONFIG && CONFIG.SCRIPT_URL;
+  var isPlaceholder = hasConfig && (CONFIG.SCRIPT_URL.indexOf('YOUR_') > -1 || CONFIG.SCRIPT_URL.indexOf('PASTE_') > -1);
+
+  // Nếu chưa cấu hình config → demo mode
+  if(!hasConfig || isPlaceholder){
+    document.getElementById('setupNotice').classList.add('show');
+    allPosts=getDemo();filtered=allPosts;render(allPosts);return;
+  }
+
+  // Cache check
+  var cached=getCache();
+  if(cached&&cached.length){
+    console.log('[TravelVN] → Dùng cache ('+cached.length+' bài), refresh nền');
+    allPosts=cached;filtered=allPosts;render(allPosts);
+    refreshInBackground();
+    return;
+  }
+
+  try{
+    console.log('[TravelVN] → Fetch từ Apps Script...');
+    var res=await fetch(CONFIG.SCRIPT_URL+'?path=posts&t='+Date.now());
+    if(!res.ok)throw new Error('HTTP '+res.status);
+    var data=await res.json();
+    var arr=Array.isArray(data)?data:(data&&Array.isArray(data.posts)?data.posts:[]);
+    console.log('[TravelVN] Apps Script trả về '+arr.length+' bài (raw)');
+
+    if(!arr.length){
+      console.warn('[TravelVN] → Sheet trống, hiện empty state (KHÔNG fallback demo)');
+      allPosts=[];filtered=[];render([]);return;
+    }
+
+    var normalized=arr.map(normalize).filter(Boolean);
+    var published=normalized.filter(function(p){return p.status==='published';});
+    console.log('[TravelVN] Sau filter status=published: '+published.length+' bài');
+
+    if(!published.length){
+      console.warn('[TravelVN] → Có '+arr.length+' bài nhưng KHÔNG bài nào status=published. Vào admin → Edit → đổi status sang Published.');
+    }
+
+    allPosts=published;
+    filtered=allPosts;
+    setCache(allPosts);
+    render(allPosts);
+
+  }catch(err){
+    console.error('[TravelVN] loadPosts error:',err);
+    document.getElementById('loadingState').innerHTML=
+      '<div style="color:#991b1b"><p>⚠️ Không tải được bài viết</p>'
+      +'<p style="font-size:.85rem;margin-top:.5rem;color:var(--gray)">'+esc(err.message)+'</p></div>';
+  }
+}
+
+async function refreshInBackground(){
+  try{
+    var res=await fetch(CONFIG.SCRIPT_URL+'?path=posts&t='+Date.now());
+    if(!res.ok)return;
+    var data=await res.json();
+    var arr=Array.isArray(data)?data:(data&&Array.isArray(data.posts)?data.posts:[]);
+    var fresh=arr.map(normalize).filter(function(p){return p&&p.status==='published';});
+    if(JSON.stringify(fresh)!==JSON.stringify(allPosts)){
+      allPosts=fresh;
+      setCache(allPosts);
+      filter(); // re-render với filter hiện tại
+    }
+  }catch(e){}
+}
+
+/* ── Render ── */
+function render(posts){
+  var grid=document.getElementById('postsGrid');
+  var loading=document.getElementById('loadingState');
+  var empty=document.getElementById('emptyState');
+  loading.style.display='none';
+
+  if(!posts||!posts.length){
+    grid.style.display='none';empty.style.display='block';return;
+  }
+  empty.style.display='none';grid.style.display='grid';
+  grid.innerHTML=posts.map(card).join('');
+}
+
+function card(p){
+  var img=p.featured_image&&p.featured_image.indexOf('http')===0
+    ?p.featured_image
+    :'https://placehold.co/600x375/1a2332/d4af37?text=Travel+Vietnam';
+  var slug=esc(p.slug||'');
+  var catLbl=catLabel(p.category);
+  return '<article class="post-card" onclick="openPost(\''+slug+'\')">'
+    +'<div class="post-img-wrap">'
+      +'<img src="'+esc(img)+'" alt="'+esc(p.title||'')+'" class="post-img" loading="lazy" '
+      +'onerror="this.src=\'https://placehold.co/600x375/1a2332/d4af37?text=No+Image\'">'
+      +'<span class="post-cat">'+catLbl+'</span>'
+    +'</div>'
+    +'<div class="post-body">'
+      +'<div class="post-meta"><span>📅 '+fmtDate(p.published_date)+'</span>'
+      +(p.destination?'<span>📍 '+esc(p.destination)+'</span>':'')+'</div>'
+      +'<h2 class="post-title">'+esc(p.title||'(Chưa có tiêu đề)')+'</h2>'
+      +'<p class="post-excerpt">'+esc(p.excerpt||'')+'</p>'
+      +'<div class="post-foot">'
+        +'<span class="read-more">Đọc tiếp</span>'
+        +'<span class="post-views">👁 '+(p.views||0)+'</span>'
+      +'</div>'
+    +'</div></article>';
+}
+
+function openPost(slug){
+  if(slug)window.location.href='post.html?slug='+encodeURIComponent(slug);
+}
+
+/* ── Events ── */
+function setupEvents(){
+  document.getElementById('searchInput').addEventListener('input',debounce(filter,300));
+  document.getElementById('categoryFilter').addEventListener('change',filter);
+  document.getElementById('sortBy').addEventListener('change',sortAndRender);
+  document.querySelectorAll('.nav-links a').forEach(function(a){
+    a.addEventListener('click',function(e){
+      e.preventDefault();
+      document.querySelectorAll('.nav-links a').forEach(function(x){x.classList.remove('active');});
+      a.classList.add('active');
+      document.getElementById('categoryFilter').value=a.dataset.cat;
+      document.getElementById('navLinks').classList.remove('show');
+      filter();
+    });
+  });
+  document.querySelectorAll('.lang-btn').forEach(function(b){
+    b.addEventListener('click',function(){
+      if(b.dataset.lang===currentLang)return;
+      if(typeof setLanguage==='function')setLanguage(b.dataset.lang);
+      currentLang=b.dataset.lang;
+      applyLang();render(filtered);
+    });
+  });
+  document.getElementById('menuBtn').addEventListener('click',function(){
+    document.getElementById('navLinks').classList.toggle('show');
+  });
+}
+
+function filter(){
+  var q=document.getElementById('searchInput').value.toLowerCase().trim();
+  var cat=document.getElementById('categoryFilter').value;
+  filtered=allPosts.filter(function(p){
+    var ms=!q||(p.title||'').toLowerCase().indexOf(q)>-1
+      ||(p.excerpt||'').toLowerCase().indexOf(q)>-1
+      ||(p.destination||'').toLowerCase().indexOf(q)>-1;
+    var mc=cat==='all'||p.category===cat;
+    return ms&&mc;
+  });
+  sortAndRender();
+}
+
+function sortAndRender(){
+  var by=document.getElementById('sortBy').value;
+  if(by==='newest')filtered.sort(function(a,b){return new Date(b.published_date)-new Date(a.published_date);});
+  else if(by==='popular')filtered.sort(function(a,b){return (b.views||0)-(a.views||0);});
+  render(filtered);
+}
+
+/* ── Cache ── */
+function getCache(){
+  try{
+    var raw=localStorage.getItem(CACHE_KEY);if(!raw)return null;
+    var obj=JSON.parse(raw);
+    if(Date.now()-obj.ts>CACHE_MS){localStorage.removeItem(CACHE_KEY);return null;}
+    return obj.data;
+  }catch(e){return null;}
+}
+function setCache(data){
+  try{localStorage.setItem(CACHE_KEY,JSON.stringify({data:data,ts:Date.now()}));}catch(e){}
+}
+
+/* ── Utils ── */
+function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
+function debounce(fn,ms){var tm;return function(){clearTimeout(tm);tm=setTimeout(fn,ms);};}
+function fmtDate(s){if(!s)return '';var d=new Date(s);if(isNaN(d))return s;return d.toLocaleDateString(currentLang==='en'?'en-US':'vi-VN',{year:'numeric',month:'short',day:'numeric'});}
+function catLabel(c){var m={review:'Review',itinerary:'Lịch trình',comparison:'So sánh'};if(currentLang==='en')m={review:'Review',itinerary:'Itinerary',comparison:'Compare'};return m[c]||c||'Post';}
+
+/* ── Demo data (chỉ khi chưa cấu hình config.js) ── */
+function getDemo(){
+  return [
+    {post_id:'demo_001',title:'Top 10 Địa Điểm Phải Đến Ở Đà Nẵng',slug:'top-10-da-nang',category:'review',destination:'Đà Nẵng',excerpt:'Khám phá những bãi biển đẹp nhất, đền cổ và điểm tham quan hiện đại.',featured_image:'https://images.unsplash.com/photo-1583417319070-4a69db38a482?w=800',status:'published',published_date:'2025-05-01',views:1250},
+    {post_id:'demo_002',title:'3 Ngày 2 Đêm Hà Nội: Lịch Trình Hoàn Hảo',slug:'3-days-hanoi',category:'itinerary',destination:'Hà Nội',excerpt:'Lịch trình chi tiết 3 ngày khám phá Hà Nội từ Phố Cổ đến Vịnh Hạ Long.',featured_image:'https://images.unsplash.com/photo-1555921015-5532091f6026?w=800',status:'published',published_date:'2025-04-28',views:980},
+    {post_id:'demo_003',title:'Phú Quốc vs Nha Trang: Biển Nào Đẹp Hơn?',slug:'phu-quoc-vs-nha-trang',category:'comparison',destination:'Việt Nam',excerpt:'So sánh chi tiết hai bãi biển nổi tiếng nhất Việt Nam.',featured_image:'https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=800',status:'published',published_date:'2025-04-25',views:856}
+  ];
+}
+</script>
+</body>
+</html>
