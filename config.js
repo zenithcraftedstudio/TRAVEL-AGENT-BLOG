@@ -3,7 +3,7 @@
 // ============================================
 // Chỉ cần sửa file này khi deploy!
 
-const CONFIG = {
+var CONFIG = {
   // Google Apps Script API URL
   // Lấy từ: Extensions > Apps Script > Deploy > Web app URL
   SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbxmz7gSdVgtuYUdgF7C6JNU3rb94isRyXyTuE1SB41GFmSbTnrt6aMWXRpjbMer-cQsoQ/exec',
