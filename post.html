@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#1a2332">
+<title id="pageTitle">Bài viết - Travel Vietnam</title>
+<meta name="description" id="pageDescription" content="">
+<link rel="preconnect" href="https://script.google.com">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+:root{
+  --navy:#1a2332;--navy-2:#2a3548;--cream:#f5f1e8;--cream-2:#faf6ed;
+  --gold:#d4af37;--gold-d:#b8941f;--white:#fff;--gray:#6b7280;--gray-2:#9ca3af;--border:#e5e7eb;
+  --shadow:0 1px 3px rgba(26,35,50,.06),0 4px 12px rgba(26,35,50,.04);
+  --shadow-h:0 4px 12px rgba(26,35,50,.08),0 12px 32px rgba(26,35,50,.08);
+  --r-sm:6px;--r-md:10px;--r-lg:14px;
+}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;line-height:1.7;color:var(--navy);background:var(--cream);overflow-x:hidden;font-size:16px}
+img{max-width:100%;display:block}
+button{font-family:inherit;cursor:pointer;border:none}
+a{text-decoration:none;color:inherit}
+
+/* ── Header ── */
+header{background:var(--white);position:sticky;top:0;z-index:100;border-bottom:1px solid var(--border)}
+nav{max-width:1200px;margin:0 auto;padding:.85rem 1rem;display:flex;justify-content:space-between;align-items:center;gap:.5rem}
+.logo{font-size:1.25rem;font-weight:800;color:var(--navy);letter-spacing:-.5px}
+.logo span{color:var(--gold)}
+.back-link{color:var(--gray);font-size:.9rem;display:flex;align-items:center;gap:.3rem;padding:.4rem .7rem;border-radius:var(--r-sm);transition:all .2s}
+.back-link:hover{color:var(--gold);background:var(--cream)}
+
+/* ── Reading progress ── */
+.progress{position:fixed;top:0;left:0;height:3px;background:var(--gold);width:0;z-index:200;transition:width .1s}
+
+/* ── Article ── */
+.article{max-width:760px;margin:0 auto;padding:1.5rem 1rem 3rem}
+.article-head{margin-bottom:1.5rem}
+.article-cat{display:inline-block;background:var(--gold);color:var(--white);padding:.3rem .85rem;border-radius:4px;font-weight:700;text-transform:uppercase;font-size:.75rem;letter-spacing:.5px;margin-bottom:1rem}
+.article-title{font-size:clamp(1.5rem,4vw,2.2rem);font-weight:800;line-height:1.25;margin-bottom:1rem;letter-spacing:-.5px;color:var(--navy)}
+.article-meta{display:flex;flex-wrap:wrap;gap:1rem;color:var(--gray);font-size:.88rem}
+.article-meta span{display:flex;align-items:center;gap:.3rem}
+.article-image{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:var(--r-lg);margin-bottom:1.75rem;background:var(--navy);box-shadow:var(--shadow)}
+
+.article-content{background:var(--white);padding:2rem 1.5rem;border-radius:var(--r-lg);font-size:1.02rem;box-shadow:var(--shadow)}
+.article-content h2{font-size:1.5rem;margin:2rem 0 .85rem;color:var(--navy);font-weight:700;letter-spacing:-.3px}
+.article-content h2:first-child{margin-top:0}
+.article-content h3{font-size:1.2rem;margin:1.5rem 0 .65rem;color:var(--navy);font-weight:700}
+.article-content p{margin-bottom:1.1rem}
+.article-content ul,.article-content ol{margin:1rem 0 1rem 1.5rem}
+.article-content li{margin-bottom:.4rem}
+.article-content img{max-width:100%;height:auto;border-radius:var(--r-md);margin:1.25rem 0;box-shadow:var(--shadow)}
+.article-content a{color:var(--gold-d);font-weight:600;border-bottom:1px solid transparent;transition:border-color .2s}
+.article-content a:hover{border-bottom-color:var(--gold)}
+.article-content blockquote{border-left:3px solid var(--gold);padding:.5rem 1rem;margin:1.25rem 0;background:var(--cream-2);font-style:italic;color:var(--navy-2);border-radius:0 var(--r-sm) var(--r-sm) 0}
+
+/* ── CTA: Plan cá nhân hoá (in-content + sticky) ── */
+.plan-cta{background:linear-gradient(135deg,var(--navy) 0%,#243149 100%);color:var(--white);padding:1.75rem 1.5rem;border-radius:var(--r-lg);margin:2rem 0;text-align:center;position:relative;overflow:hidden}
+.plan-cta::before{content:'';position:absolute;top:-30%;right:-15%;width:200px;height:200px;background:radial-gradient(circle,rgba(212,175,55,.2),transparent 70%);pointer-events:none}
+.plan-cta-label{font-size:.78rem;color:var(--gold);font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:.5rem;position:relative}
+.plan-cta h3{font-size:1.35rem;margin-bottom:.6rem;font-weight:700;position:relative}
+.plan-cta p{opacity:.85;font-size:.95rem;margin-bottom:1.25rem;position:relative;max-width:480px;margin-left:auto;margin-right:auto}
+.plan-cta-btns{display:flex;gap:.6rem;justify-content:center;flex-wrap:wrap;position:relative}
+.plan-btn{padding:.75rem 1.4rem;border-radius:var(--r-md);font-weight:700;font-size:.92rem;display:inline-flex;align-items:center;gap:.4rem;transition:transform .2s}
+.plan-btn:hover{transform:translateY(-2px)}
+.plan-btn.primary{background:var(--gold);color:var(--white)}
+.plan-btn.zalo{background:#0068ff;color:var(--white)}
+.plan-btn.outline{background:transparent;color:var(--white);border:1.5px solid rgba(255,255,255,.4)}
+.plan-btn.outline:hover{border-color:var(--gold);color:var(--gold)}
+
+/* ── Affiliate section ── */
+.affiliate-section{background:var(--white);padding:1.75rem 1.5rem;border-radius:var(--r-lg);margin-top:1.5rem;box-shadow:var(--shadow)}
+.aff-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1.25rem;gap:1rem;flex-wrap:wrap}
+.aff-head h3{font-size:1.3rem;color:var(--navy);font-weight:700}
+.aff-head .aff-tag{font-size:.72rem;color:var(--gray);background:var(--cream);padding:.25rem .55rem;border-radius:4px;font-weight:600}
+.aff-grid{display:grid;gap:1rem}
+.aff-card{border:1.5px solid var(--border);border-radius:var(--r-md);padding:1rem;display:flex;gap:1rem;transition:border-color .25s,box-shadow .25s}
+.aff-card:hover{border-color:var(--gold);box-shadow:0 4px 12px rgba(212,175,55,.12)}
+.aff-img{width:120px;height:120px;object-fit:cover;border-radius:var(--r-sm);flex-shrink:0;background:var(--cream)}
+.aff-body{flex:1;display:flex;flex-direction:column;justify-content:space-between;min-width:0}
+.aff-name{font-size:1.05rem;font-weight:700;color:var(--navy);margin-bottom:.3rem;line-height:1.3}
+.aff-rating{color:var(--gold-d);font-size:.88rem;margin-bottom:.3rem}
+.aff-price{font-size:1rem;font-weight:700;color:var(--navy);margin-bottom:.7rem}
+.aff-price small{color:var(--gray);font-weight:400;font-size:.82rem}
+.aff-links{display:flex;gap:.5rem;flex-wrap:wrap}
+.aff-btn{padding:.55rem 1rem;border-radius:var(--r-sm);font-weight:600;font-size:.85rem;transition:all .2s}
+.aff-btn.primary{background:var(--gold);color:var(--white)}
+.aff-btn.primary:hover{background:var(--gold-d)}
+.aff-btn.secondary{background:var(--cream);color:var(--navy);border:1px solid var(--border)}
+.aff-btn.secondary:hover{background:var(--white);border-color:var(--navy)}
+
+/* ── Sticky CTA ── */
+.sticky-cta{position:fixed;bottom:1rem;right:1rem;z-index:50;display:flex;flex-direction:column;gap:.5rem}
+.sticky-cta a{width:50px;height:50px;border-radius:50%;background:var(--gold);color:var(--white);display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(212,175,55,.45);font-size:1.4rem;transition:transform .2s}
+.sticky-cta a:hover{transform:scale(1.08)}
+.sticky-cta a.zalo{background:#0068ff;box-shadow:0 4px 16px rgba(0,104,255,.4)}
+.sticky-cta a.fb{background:#0084ff;box-shadow:0 4px 16px rgba(0,132,255,.4)}
+
+/* ── Loading / Error ── */
+.loading,.error-state{text-align:center;padding:4rem 1rem;color:var(--gray)}
+.spinner{border:3px solid var(--border);border-top:3px solid var(--gold);border-radius:50%;width:40px;height:40px;animation:spin .9s linear infinite;margin:0 auto 1rem}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ── Mobile ── */
+@media(max-width:768px){
+  .article{padding:1rem .85rem 5rem}
+  .article-content{padding:1.5rem 1.1rem}
+  .aff-card{flex-direction:column}
+  .aff-img{width:100%;height:180px}
+  .plan-cta{padding:1.5rem 1rem}
+}
+</style>
+</head>
+<body>
+
+<div class="progress" id="readProgress"></div>
+
+<header>
+<nav>
+  <a href="index.html" class="logo">Travel<span>Vietnam</span></a>
+  <a href="index.html" class="back-link">← Trang chủ</a>
+</nav>
+</header>
+
+<div id="loadingState" class="loading">
+  <div class="spinner"></div>
+  <p>Đang tải bài viết...</p>
+</div>
+
+<article id="articleContainer" class="article" style="display:none">
+  <header class="article-head">
+    <span id="articleCategory" class="article-cat"></span>
+    <h1 id="articleTitle" class="article-title"></h1>
+    <div class="article-meta">
+      <span id="articleDate"></span>
+      <span id="articleViews"></span>
+      <span id="articleDestination"></span>
+    </div>
+  </header>
+
+  <img id="articleImage" class="article-image" alt="" style="display:none">
+
+  <div id="articleContent" class="article-content"></div>
+
+  <!-- Affiliate: hotels -->
+  <section id="hotelsSection" class="affiliate-section" style="display:none">
+    <div class="aff-head">
+      <h3>🏨 Khách sạn đề xuất</h3>
+      <span class="aff-tag">Tài trợ</span>
+    </div>
+    <div id="hotelsList" class="aff-grid"></div>
+  </section>
+
+  <!-- Affiliate: activities -->
+  <section id="activitiesSection" class="affiliate-section" style="display:none">
+    <div class="aff-head">
+      <h3>🎫 Hoạt động & Tour</h3>
+      <span class="aff-tag">Tài trợ</span>
+    </div>
+    <div id="activitiesList" class="aff-grid"></div>
+  </section>
+
+  <!-- Plan CTA: bán plan cá nhân hoá -->
+  <section class="plan-cta">
+    <div class="plan-cta-label">✨ Plan riêng cho bạn</div>
+    <h3>Cần lịch trình cá nhân hoá?</h3>
+    <p>Mình thiết kế plan du lịch riêng theo budget, sở thích và thời gian của bạn — kèm gợi ý khách sạn, ăn uống và route tối ưu.</p>
+    <div class="plan-cta-btns">
+      <a href="https://zalo.me/" target="_blank" rel="noopener" class="plan-btn zalo">💬 Chat Zalo</a>
+      <a href="https://m.me/" target="_blank" rel="noopener" class="plan-btn primary">✉️ Messenger</a>
+      <a href="mailto:hello@example.com" class="plan-btn outline">📧 Email</a>
+    </div>
+  </section>
+</article>
+
+<div id="errorState" class="error-state" style="display:none">
+  <p style="font-size:2.5rem;margin-bottom:1rem">😕</p>
+  <p style="font-size:1.1rem;margin-bottom:1.5rem;color:var(--navy)">Không tìm thấy bài viết</p>
+  <a href="index.html" style="color:var(--gold);font-weight:700">← Quay lại trang chủ</a>
+</div>
+
+<!-- Sticky CTA: Zalo + Messenger -->
+<div class="sticky-cta">
+  <a href="https://zalo.me/" target="_blank" rel="noopener" class="zalo" title="Chat Zalo" aria-label="Zalo">💬</a>
+  <a href="https://m.me/" target="_blank" rel="noopener" class="fb" title="Messenger" aria-label="Messenger">✉️</a>
+</div>
+
+<script src="config.js"></script>
+<script>
+/* ============================================================
+   POST.HTML — CLEAN BUILD
+   - Mapping field thống nhất: featured_image
+   - Affiliate parse JSON từ Sheet (cột affiliate_hotels, affiliate_activities)
+   - Reading progress bar
+   - Track view/click async
+============================================================ */
+
+var slug=new URLSearchParams(window.location.search).get('slug');
+
+document.addEventListener('DOMContentLoaded',function(){
+  if(!slug){window.location.href='index.html';return;}
+  loadPost();
+  setupReadingProgress();
+});
+
+function setupReadingProgress(){
+  var bar=document.getElementById('readProgress');
+  window.addEventListener('scroll',function(){
+    var h=document.documentElement;
+    var pct=(h.scrollTop)/(h.scrollHeight-h.clientHeight)*100;
+    bar.style.width=Math.max(0,Math.min(100,pct))+'%';
+  },{passive:true});
+}
+
+/* ── Normalize ── */
+function normalize(raw){
+  if(!raw||typeof raw!=='object')return null;
+  // Giữ nguyên raw slug TRƯỚC khi normalize keys
+  var rawSlug=String(raw.slug||raw.Slug||'').trim();
+  var lk={};
+  Object.keys(raw).forEach(function(k){
+    var c=String(k).trim().toLowerCase().replace(/[^a-z0-9]/g,'');
+    lk[c]=raw[k];
+  });
+  function pick(){
+    for(var i=0;i<arguments.length;i++){
+      var v=lk[arguments[i]];
+      if(v!==undefined&&v!==null&&String(v).trim()!=='')return v;
+    }
+    return '';
+  }
+  function pickJSON(){
+    var raw=pick.apply(null,arguments);
+    if(!raw)return [];
+    if(Array.isArray(raw))return raw;
+    try{var p=JSON.parse(raw);return Array.isArray(p)?p:[];}catch(e){return [];}
+  }
+  return {
+    post_id:pick('postid','id'),
+    title:pick('title'),
+    slug:rawSlug||pick('slug'), // dùng rawSlug để tránh normalize làm sai
+    category:String(pick('category','type')||'').toLowerCase().trim(),
+    status:String(pick('status')||'draft').toLowerCase().trim(),
+    views:Number(pick('views','viewcount'))||0,
+    published_date:pick('publisheddate','createddate','date','createdat'),
+    destination:pick('destination','location'),
+    excerpt:pick('excerpt','summary','description'),
+    meta_description:pick('metadescription','metadesc')||pick('excerpt','summary')||'',
+    featured_image:String(pick('featuredimage','featureimage','image','thumbnail','imageurl','photo')||'').trim(),
+    content:pick('content','body','html'),
+    hotels:pickJSON('affiliatehotels','hotels'),
+    activities:pickJSON('affiliateactivities','activities')
+  };
+}
+
+/* ── Load ── */
+async function loadPost(){
+  if(typeof CONFIG==='undefined'||!CONFIG.SCRIPT_URL||CONFIG.SCRIPT_URL.indexOf('YOUR_')>-1){
+    showError('Chưa cấu hình config.js');return;
+  }
+  try{
+    // Single endpoint nếu có
+    var post=null;
+    try{
+      var r=await fetch(CONFIG.SCRIPT_URL+'?path=post&slug='+encodeURIComponent(slug));
+      if(r.ok){
+        var single=await r.json();
+        if(single&&!single.error&&(single.title||single.slug)){
+          post=normalize(single);
+        }
+      }
+    }catch(e){}
+
+    // Fallback: lấy all rồi find
+    if(!post){
+      var r2=await fetch(CONFIG.SCRIPT_URL+'?path=posts&admin=true&t='+Date.now());
+      if(!r2.ok)throw new Error('HTTP '+r2.status);
+      var all=await r2.json();
+      var arr=Array.isArray(all)?all:(all&&Array.isArray(all.posts)?all.posts:[]);
+      var norm=arr.map(normalize).filter(Boolean);
+      // Log để debug
+      console.log('All posts after normalize:');
+      norm.forEach(function(p,i){console.log(i,'slug:"'+p.slug+'" title:"'+(p.title||'').substring(0,40)+'"');});
+      post=norm.find(function(p){return String(p.slug).trim()===String(slug).trim();})
+         ||norm.find(function(p){return String(p.post_id).trim()===String(slug).trim();});
+      console.log('Found post:', post?post.title:'NONE', '| slug match:', post?post.slug:'N/A');
+    }
+
+    if(!post)throw new Error('Không tìm thấy bài viết');
+    render(post);
+    if(post.post_id)trackView(post.post_id);
+  }catch(err){
+    console.error('loadPost:',err);
+    showError(err.message);
+  }
+}
+
+function showError(msg){
+  document.getElementById('loadingState').style.display='none';
+  document.getElementById('errorState').style.display='block';
+  console.error(msg);
+}
+
+/* ── Render ── */
+function render(post){
+  document.getElementById('loadingState').style.display='none';
+  document.getElementById('articleContainer').style.display='block';
+
+  document.title=(post.title||'Bài viết')+' - Travel Vietnam';
+  document.getElementById('pageDescription').setAttribute('content',post.meta_description||post.excerpt||'');
+
+  document.getElementById('articleCategory').textContent=catLabel(post.category);
+  document.getElementById('articleTitle').textContent=post.title||'(Chưa có tiêu đề)';
+  document.getElementById('articleDate').textContent=post.published_date?'📅 '+fmtDate(post.published_date):'';
+  document.getElementById('articleViews').textContent='👁 '+(post.views||0)+' lượt xem';
+  document.getElementById('articleDestination').textContent=post.destination?'📍 '+post.destination:'';
+
+  // Featured image
+  var img=document.getElementById('articleImage');
+  if(post.featured_image&&post.featured_image.indexOf('http')===0){
+    img.src=post.featured_image;
+    img.alt=post.title||'';
+    img.style.display='block';
+    img.onerror=function(){this.style.display='none';};
+  }
+
+  // Content (sanitize images bên trong)
+  var tmp=document.createElement('div');
+  tmp.innerHTML=post.content||'<p style="color:var(--gray-2)">Nội dung đang được cập nhật...</p>';
+  tmp.querySelectorAll('img').forEach(function(im){
+    var src=im.getAttribute('src');
+    if(!src||src==='undefined'||src==='null'||src.indexOf('http')!==0){
+      im.style.display='none';
+    }else{
+      im.setAttribute('loading','lazy');
+    }
+  });
+  document.getElementById('articleContent').innerHTML=tmp.innerHTML;
+
+  // Affiliate
+  if(post.hotels&&post.hotels.length){
+    document.getElementById('hotelsSection').style.display='block';
+    document.getElementById('hotelsList').innerHTML=post.hotels.map(hotelCard).join('');
+    bindAffClicks(post.post_id,'.hotel-link');
+  }
+  if(post.activities&&post.activities.length){
+    document.getElementById('activitiesSection').style.display='block';
+    document.getElementById('activitiesList').innerHTML=post.activities.map(activityCard).join('');
+    bindAffClicks(post.post_id,'.activity-link');
+  }
+}
+
+function bindAffClicks(postId,sel){
+  document.querySelectorAll(sel).forEach(function(a){
+    a.addEventListener('click',function(){trackClick(postId,a.dataset.platform);});
+  });
+}
+
+function hotelCard(h){
+  var img=h.image_url&&String(h.image_url).indexOf('http')===0?h.image_url:'https://placehold.co/240x240/1a2332/d4af37?text=Hotel';
+  return '<div class="aff-card">'
+    +'<img src="'+esc(img)+'" alt="'+esc(h.hotel_name||'')+'" class="aff-img" loading="lazy" onerror="this.src=\'https://placehold.co/240x240/1a2332/d4af37?text=Hotel\'">'
+    +'<div class="aff-body">'
+      +'<div>'
+        +'<h4 class="aff-name">'+esc(h.hotel_name||'')+'</h4>'
+        +(h.rating?'<div class="aff-rating">⭐ '+esc(h.rating)+'/5</div>':'')
+        +(h.price_from?'<div class="aff-price">'+fmtPrice(h.price_from)+' '+esc(h.currency||'VND')+' <small>/đêm</small></div>':'')
+      +'</div>'
+      +'<div class="aff-links">'
+        +(h.agoda_link?'<a href="'+esc(h.agoda_link)+'" target="_blank" rel="noopener nofollow sponsored" class="aff-btn primary hotel-link" data-platform="agoda">Agoda →</a>':'')
+        +(h.booking_link?'<a href="'+esc(h.booking_link)+'" target="_blank" rel="noopener nofollow sponsored" class="aff-btn secondary hotel-link" data-platform="booking">Booking →</a>':'')
+      +'</div>'
+    +'</div></div>';
+}
+
+function activityCard(a){
+  var img=a.image_url&&String(a.image_url).indexOf('http')===0?a.image_url:'https://placehold.co/240x240/1a2332/d4af37?text=Tour';
+  return '<div class="aff-card">'
+    +'<img src="'+esc(img)+'" alt="'+esc(a.activity_name||'')+'" class="aff-img" loading="lazy" onerror="this.src=\'https://placehold.co/240x240/1a2332/d4af37?text=Tour\'">'
+    +'<div class="aff-body">'
+      +'<div>'
+        +'<h4 class="aff-name">'+esc(a.activity_name||'')+'</h4>'
+        +(a.price_from?'<div class="aff-price">'+fmtPrice(a.price_from)+' '+esc(a.currency||'VND')+'</div>':'')
+      +'</div>'
+      +'<div class="aff-links">'
+        +(a.klook_link?'<a href="'+esc(a.klook_link)+'" target="_blank" rel="noopener nofollow sponsored" class="aff-btn primary activity-link" data-platform="klook">Klook →</a>':'')
+        +(a.traveloka_link?'<a href="'+esc(a.traveloka_link)+'" target="_blank" rel="noopener nofollow sponsored" class="aff-btn secondary activity-link" data-platform="traveloka">Traveloka →</a>':'')
+      +'</div>'
+    +'</div></div>';
+}
+
+/* ── Tracking (fire-and-forget) ── */
+async function trackView(postId){
+  try{
+    await fetch(CONFIG.SCRIPT_URL,{method:'POST',mode:'cors',headers:{'Content-Type':'text/plain'},body:JSON.stringify({action:'track_view',post_id:postId})});
+  }catch(e){}
+}
+async function trackClick(postId,platform){
+  try{
+    await fetch(CONFIG.SCRIPT_URL,{method:'POST',mode:'cors',headers:{'Content-Type':'text/plain'},body:JSON.stringify({action:'track_click',post_id:postId,platform:platform})});
+  }catch(e){}
+}
+
+/* ── Utils ── */
+function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
+function fmtDate(s){if(!s)return '';var d=new Date(s);return isNaN(d)?s:d.toLocaleDateString('vi-VN',{year:'numeric',month:'long',day:'numeric'});}
+function fmtPrice(n){return new Intl.NumberFormat('vi-VN').format(Number(n)||0);}
+function catLabel(c){var m={review:'Review',itinerary:'Lịch trình',comparison:'So sánh'};return m[c]||c||'';}
+</script>
+</body>
+</html>
